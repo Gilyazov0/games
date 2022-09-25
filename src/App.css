@@ -1,38 +1,90 @@
-.App {
-  text-align: center;
-}
+ .cell {
+   width: 93%;
+   height: 93%;
+   border-radius: 20%;
+   box-sizing: border-box;
+   margin: 0px;
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
+ }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
+ .cell--outer {
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
+   margin: 0px;
+   max-height: 83px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+ }
 
-.App-link {
-  color: #61dafb;
-}
+ .cell--full {
+   background-color: brown;
+   margin: 0px;
+   border: 2px solid;
+ }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+ .row {
+   display: flex;
+   box-sizing: border-box;
+   margin: 0px;
+ }
+
+ .glass--inner {
+   border: 5px solid;
+   border-top: none;
+   position: relative;
+   margin: 20px;
+ }
+
+ .glass--outer {
+   display: flex;
+
+ }
+
+ .glass--outer--right {
+   justify-content: center;
+ }
+
+ .glass--outer--bottom {
+   align-items: center;
+
+ }
+
+ .infoBadge {
+   text-align: center;
+   border-radius: 8px;
+   border: 2px solid;
+   margin: 0px 0px 5px 0px;
+   width: 100%;
+   font-size: 4vmin;
+   background-color: #42aaf5;
+   color: white;
+   border-color: black;
+   padding: 2px;
+ }
+
+ .message {
+   position: absolute;
+   width: 100%;
+   top: 45%;
+   text-align: center;
+
+   color: red;
+   font-size: xx-large;
+ }
+
+ .glass--preview {
+   display: flex;
+
+ }
+
+ .glass--preview--bottom {
+   justify-content: space-around;
+   margin: 0px 20px 0px 20px;
+   width: 100%;
+
+ }
+
+ .glass--preview--right {
+   justify-content: flex-start;
+   margin-top: 20px;
+ }
