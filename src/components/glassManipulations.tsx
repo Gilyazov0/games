@@ -4,8 +4,6 @@ import { CELL_SIZE, colorsArr, Figure, figuresArr } from "./constants";
 import { RowData } from "./glass";
 
 export class GlassManipulations {
-  constructor() {}
-
   private static last_row_id = Number.MIN_VALUE;
 
   private static getRandomColor(): string {
