@@ -12,7 +12,7 @@ export class GlassManipulations {
     return colorsArr[Math.floor(Math.random() * colorsArr.length)];
   }
 
-  private static getNewFigure(cols: number): Figure {
+  static getNewFigure(cols: number): Figure {
     const figNum: number = Math.floor(Math.random() * figuresArr.length);
     const color: string = this.getRandomColor();
     return {
@@ -61,7 +61,7 @@ export class GlassManipulations {
     return result;
   }
 
-  private static getMovedFigure(
+  static getMovedFigure(
     figure: Figure,
     dx: number,
     dy: number,
