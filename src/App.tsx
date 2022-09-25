@@ -1,46 +1,39 @@
 import "./App.css";
-import {Glass, GlassProps, RowData} from "./components/glass";
+import { Glass, RowData } from "./components/glass";
 import React from "react";
-import cloneDeep from 'lodash.clonedeep';
+import cloneDeep from "lodash.clonedeep";
 //import shortid from "shortid";
 import {
   figuresArr,
   colorsArr,
-  touchZoneSizeX,
-  sensitivity,
-  touchZoneSizeY,
+  TOUCH_ZONE_SIZE_X,
+  SENSITIVITY,
+  TOUCH_ZONE_SIZE_Y,
   Figure,
   CELL_SIZE,
   ROWS_NUM,
-  COLS_NUM
+  COLS_NUM,
 } from "./components/constants";
 import { CellProps } from "./components/cell";
 
-
-
-
 let last_row_id = Number.MIN_VALUE;
 
-interface GameState{
-  glass: RowData[],
-  score: number,
-  speed: number,
-  pause: boolean,
-  gameOver: boolean,
-  figure: Figure,
-  nextFigure: Figure,
-
-  lastScore: number,
-  lastSpeed: number,
+interface GameState {
+  glass: RowData[];
+  score: number;
+  speed: number;
+  pause: boolean;
+  gameOver: boolean;
+  figure: Figure;
+  nextFigure: Figure;
 }
 
-const App: React.FC = ()=> {
-
-  function getRandomColor():string {
+const App: React.FC = () => {
+  function getRandomColor(): string {
     return colorsArr[Math.floor(Math.random() * colorsArr.length)];
   }
 
-  function getNewFigure(cols:number):Figure {
+  function getNewFigure(cols: number): Figure {
     const figNum: number = Math.floor(Math.random() * figuresArr.length);
     const color: string = getRandomColor();
     return {
@@ -54,18 +47,22 @@ const App: React.FC = ()=> {
     };
   }
 
-  function getEmptyRow(cols:number) :RowData {
-    const row:CellProps[] = new Array<CellProps>(cols).fill({ isFilled: false, color: "#FFFFFF" ,cellSize:CELL_SIZE} );
-    const res = { id:last_row_id,row:{cells:row}}
+  function getEmptyRow(cols: number): RowData {
+    const row: CellProps[] = new Array<CellProps>(cols).fill({
+      isFilled: false,
+      color: "#FFFFFF",
+      cellSize: CELL_SIZE,
+    });
+    const res = { id: last_row_id, row: { cells: row } };
     last_row_id++;
     return res;
   }
 
-  function copyRow(row:RowData):RowData {
+  function copyRow(row: RowData): RowData {
     return cloneDeep(row);
   }
 
-  function getEmptyGlass(rows:number, cols:number):RowData[] {
+  function getEmptyGlass(rows: number, cols: number): RowData[] {
     const result = [];
     for (let i = 0; i < rows; i++) {
       result.push(getEmptyRow(cols));
@@ -73,32 +70,11 @@ const App: React.FC = ()=> {
     return result;
   }
 
-  const [state, setState] = React.useState<GameState>({
-    glass: getEmptyGlass(ROWS_NUM, COLS_NUM),    
-    figure: getNewFigure(COLS_NUM),
-    nextFigure: getNewFigure(COLS_NUM),
-    score: 0,
-    speed: 1,
-    pause: false,
-    gameOver: false,
-    lastScore: 0,
-    lastSpeed: 1,
-  });
-
-  const [action, setAction] = React.useState("");
-
-  function togglePause() {
-    setState((prevState) => {
-      console.log(prevState);
-      return { ...prevState, pause: !prevState.pause, gameOver: false };
-    });
-  }
-
-  function copyGlass(glass:RowData[]):RowData[] {
+  function copyGlass(glass: RowData[]): RowData[] {
     return cloneDeep(glass);
   }
 
-  function getRealCords(figure:Figure, cellIndex:number) {
+  function getRealCords(figure: Figure, cellIndex: number) {
     const result = {
       x: figure.x! + figure.cells[cellIndex].x,
       y: figure.y! + figure.cells[cellIndex].y,
@@ -106,20 +82,12 @@ const App: React.FC = ()=> {
     return result;
   }
 
-  function putFigure(figure:Figure, glass:RowData[]) {
-    const newGlass = copyGlass(glass);
-
-    for (let i = 0; i < figure.cells.length; i++) {
-      const coords = getRealCords(figure, i);
-      newGlass[coords.y].row.cells[coords.x] = {
-                ...newGlass[coords.y].row.cells[coords.x],
-                ...figure.cells[i].value
-              };
-}
-    return newGlass;
-  }
-
-  function getMovedFigure(figure:Figure, dx:number, dy:number, rotate:boolean):Figure {
+  function getMovedFigure(
+    figure: Figure,
+    dx: number,
+    dy: number,
+    rotate: boolean
+  ): Figure {
     let newCells = figure.cells;
     const x0 = figure.x0;
     const y0 = figure.y0;
@@ -142,18 +110,68 @@ const App: React.FC = ()=> {
     };
   }
 
-  function isValidPosition(figure:Figure, glass:RowData[]):boolean {
+  function putFigure(figure: Figure, glass: RowData[]) {
+    const newGlass = copyGlass(glass);
+
+    for (let i = 0; i < figure.cells.length; i++) {
+      const coords = getRealCords(figure, i);
+      newGlass[coords.y].row.cells[coords.x] = {
+        ...newGlass[coords.y].row.cells[coords.x],
+        ...figure.cells[i].value,
+      };
+    }
+    return newGlass;
+  }
+
+  function isValidPosition(figure: Figure, glass: RowData[]): boolean {
     for (let i = 0; i < figure.cells.length; i++) {
       const coords = getRealCords(figure, i);
       if (coords.y < 0 || coords.y > glass.length - 1) return false;
-      if (coords.x < 0 || coords.x > glass[0].row.cells.length - 1) return false;
+      if (coords.x < 0 || coords.x > glass[0].row.cells.length - 1)
+        return false;
       if (glass[coords.y].row.cells[coords.x].isFilled === true) return false;
     }
     return true;
   }
 
-  function moveFigure(dx:number, dy:number, rotate = false) {
-    setState((prevState:GameState) => {
+  function getClearedGlass(glass: RowData[]): {
+    glass: RowData[];
+    add_score: number;
+  } {
+    let add_score = 0;
+    const newGlass = [];
+    for (let i = 0; i < glass.length; i++) {
+      if (!glass[i].row.cells.every((cell) => cell.isFilled === true)) {
+        newGlass.push(copyRow(glass[i]));
+      } else {
+        newGlass.unshift(getEmptyRow(glass[i].row.cells.length));
+        add_score += 1;
+      }
+    }
+    return { glass: newGlass, add_score: add_score };
+  }
+
+  const [state, setState] = React.useState<GameState>({
+    glass: getEmptyGlass(ROWS_NUM, COLS_NUM),
+    figure: getNewFigure(COLS_NUM),
+    nextFigure: getNewFigure(COLS_NUM),
+    score: 0,
+    speed: 1,
+    pause: false,
+    gameOver: false,
+  });
+
+  const [action, setAction] = React.useState("");
+
+  function togglePause() {
+    setState((prevState) => {
+      console.log(prevState);
+      return { ...prevState, pause: !prevState.pause, gameOver: false };
+    });
+  }
+
+  function moveFigure(dx: number, dy: number, rotate = false) {
+    setState((prevState: GameState) => {
       if (prevState.pause) return prevState;
       const newFigure = getMovedFigure(prevState.figure, dx, dy, rotate);
       if (isValidPosition(newFigure, prevState.glass))
@@ -197,21 +215,7 @@ const App: React.FC = ()=> {
     });
   }
 
-  function getClearedGlass(glass:RowData[]):{glass:RowData[],add_score:number}{
-    let add_score = 0;
-    const newGlass = [];
-    for (let i = 0; i < glass.length; i++) {
-      if (!glass[i].row.cells.every((cell) => cell.isFilled === true)) {
-        newGlass.push(copyRow(glass[i]));
-      } else {
-        newGlass.unshift(getEmptyRow(glass[i].row.cells.length));
-        add_score += 1;
-      }
-    }
-    return {glass: newGlass, add_score: add_score };
-  }
-
-  function handleUserKeyPress(event:KeyboardEvent):void {
+  function handleUserKeyPress(event: KeyboardEvent): void {
     switch (event.key) {
       case "ArrowUp":
         setAction("Rotate");
@@ -233,7 +237,7 @@ const App: React.FC = ()=> {
     }
   }
 
-  function makeAction():void {
+  function makeAction(): void {
     switch (action) {
       case "Rotate":
         moveFigure(0, 0, true);
@@ -252,15 +256,15 @@ const App: React.FC = ()=> {
     }
   }
 
-  function handleTouchStart(event:TouchEvent):void {
+  function handleTouchStart(event: TouchEvent): void {
     const x = event.changedTouches[0].clientX;
     const y = event.changedTouches[0].clientY;
     event.stopPropagation();
     event.preventDefault();
-    if (y > window.innerHeight * (1 - touchZoneSizeY)) setAction("MoveDown");
-    else if (y < window.innerHeight * touchZoneSizeY) togglePause();
-    else if (x < window.innerWidth * touchZoneSizeX) setAction("MoveLeft");
-    else if (x > window.innerWidth * (1 - touchZoneSizeX))
+    if (y > window.innerHeight * (1 - TOUCH_ZONE_SIZE_Y)) setAction("MoveDown");
+    else if (y < window.innerHeight * TOUCH_ZONE_SIZE_Y) togglePause();
+    else if (x < window.innerWidth * TOUCH_ZONE_SIZE_X) setAction("MoveLeft");
+    else if (x > window.innerWidth * (1 - TOUCH_ZONE_SIZE_X))
       setAction("MoveRight");
     else setAction("Rotate");
   }
@@ -284,7 +288,7 @@ const App: React.FC = ()=> {
 
   React.useEffect(() => {
     makeAction();
-    let interval = window.setInterval(() => makeAction(), sensitivity);
+    let interval = window.setInterval(() => makeAction(), SENSITIVITY);
     return () => {
       window.clearInterval(interval);
     };
@@ -326,19 +330,20 @@ const App: React.FC = ()=> {
             rows: putFigure(state.figure, state.glass),
             maxWidth: Math.min(window.innerWidth, window.screen.width),
             maxHight: Math.min(window.innerHeight, window.screen.height),
-            score: state.score,
-            speed: state.speed,
           }}
           pause={state.pause}
           gameOver={state.gameOver}
-          
-          previewGlass={{rows: putFigure({ ...state.nextFigure, x: 0 },getEmptyGlass(4, 3)),maxHight:1,maxWidth:1,score:1,speed:1
-
-         }}
+          score={state.score}
+          speed={state.speed}
+          previewGlass={{
+            rows: putFigure({ ...state.nextFigure, x: 0 }, getEmptyGlass(4, 3)),
+            maxHight: 1,
+            maxWidth: 1,
+          }}
         />
       </header>
     </div>
   );
-}
+};
 
 export default App;

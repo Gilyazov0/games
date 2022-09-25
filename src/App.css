@@ -1,90 +1,84 @@
- .cell {
-   width: 93%;
-   height: 93%;
-   border-radius: 20%;
-   box-sizing: border-box;
-   margin: 0px;
+.cell {
+  width: 93%;
+  height: 93%;
+  border-radius: 20%;
+  box-sizing: border-box;
+  margin: 0px;
+}
 
- }
+.cell--outer {
+  margin: 0px;
+  max-height: 83px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
- .cell--outer {
+.cell--full {
+  background-color: brown;
+  margin: 0px;
+  border: 2px solid;
+}
 
-   margin: 0px;
-   max-height: 83px;
-   display: flex;
-   justify-content: center;
-   align-items: center;
- }
+.row {
+  display: flex;
+  box-sizing: border-box;
+  margin: 0px;
+}
 
- .cell--full {
-   background-color: brown;
-   margin: 0px;
-   border: 2px solid;
- }
+.glass--inner {
+  border: 5px solid;
+  border-top: none;
+  position: relative;
+  margin: 20px;
+}
 
- .row {
-   display: flex;
-   box-sizing: border-box;
-   margin: 0px;
- }
+.glass--outer {
+  display: flex;
+}
 
- .glass--inner {
-   border: 5px solid;
-   border-top: none;
-   position: relative;
-   margin: 20px;
- }
+.glass--outer--right {
+  justify-content: center;
+}
 
- .glass--outer {
-   display: flex;
+.glass--outer--bottom {
+  align-items: center;
+}
 
- }
+.infoBadge {
+  text-align: center;
+  border-radius: 8px;
+  border: 2px solid;
+  margin: 0px 0px 5px 0px;
+  width: 100%;
+  font-size: 4vmin;
+  background-color: #42aaf5;
+  color: white;
+  border-color: black;
+  padding: 2px;
+}
 
- .glass--outer--right {
-   justify-content: center;
- }
+.message {
+  position: absolute;
+  width: 100%;
+  top: 45%;
+  text-align: center;
 
- .glass--outer--bottom {
-   align-items: center;
+  color: red;
+  font-size: xx-large;
+}
 
- }
+.glass--preview {
+  display: flex;
+}
 
- .infoBadge {
-   text-align: center;
-   border-radius: 8px;
-   border: 2px solid;
-   margin: 0px 0px 5px 0px;
-   width: 100%;
-   font-size: 4vmin;
-   background-color: #42aaf5;
-   color: white;
-   border-color: black;
-   padding: 2px;
- }
+.glass--preview--bottom {
+  justify-content: space-around;
+  margin: 0px 20px 0px 20px;
+  width: 100%;
+}
 
- .message {
-   position: absolute;
-   width: 100%;
-   top: 45%;
-   text-align: center;
-
-   color: red;
-   font-size: xx-large;
- }
-
- .glass--preview {
-   display: flex;
-
- }
-
- .glass--preview--bottom {
-   justify-content: space-around;
-   margin: 0px 20px 0px 20px;
-   width: 100%;
-
- }
-
- .glass--preview--right {
-   justify-content: flex-start;
-   margin-top: 20px;
- }
+.glass--preview--right {
+  justify-content: flex-start;
+  margin-top: 20px;
+}
