@@ -36,7 +36,6 @@ const App: React.FC = () => {
 
   function togglePause() {
     setState((prevState) => {
-      console.log(prevState);
       return { ...prevState, pause: !prevState.pause, gameOver: false };
     });
   }
