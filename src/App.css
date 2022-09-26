@@ -12,6 +12,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  border: 1px solid;
+  margin: -1px;
+  border-color: rgb(245, 245, 245);
 }
 
 .cell--full {
