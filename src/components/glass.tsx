@@ -1,27 +1,9 @@
 import React from "react";
-import { Row, RowProps } from "./row";
+import { Row } from "./row";
 import Info from "./info";
 import Message from "./message";
-import {
-  CELL_SIZE,
-  DIRECTION,
-  COLS_NUM,
-  ROWS_NUM,
-  Direction,
-} from "./constants";
-
-// data needed to render a row
-export interface RowData {
-  row: RowProps;
-  id: string | number;
-}
-
-//data needed to render a glass
-interface GlassData {
-  rows: RowData[];
-  maxHight: number;
-  maxWidth: number;
-}
+import { gameConstants as GC } from "./constants";
+import { Direction, GlassData } from "./interfaces";
 
 export interface GameFieldProps {
   pause?: boolean;
@@ -36,20 +18,25 @@ export const Glass: React.FC<GameFieldProps> = (props) => {
   const glass = props.glass.rows;
 
   const rows = glass.map((row) => (
-    <Row key={row.id} cells={row.row.cells} ids={row.row.ids} />
+    <Row key={row.id} cells={row.cells} ids={row.cellsIds} />
   ));
 
+  const colsCount: number = glass[0].cells.length;
+  const rowsCount: number = glass.length;
+
   const style = {
-    width: `${CELL_SIZE * COLS_NUM}px`,
-    height: `${CELL_SIZE * ROWS_NUM}px`,
+    width: `${GC.cellSize * colsCount}px`,
+    height: `${GC.cellSize * rowsCount}px`,
   };
 
   return (
     <div
       className={`glass--outer  glass--outer--${
-        DIRECTION === Direction.row ? "right" : "bottom"
+        GC.direction === Direction.row ? "right" : "bottom"
       }`}
-      style={{ flexDirection: DIRECTION === Direction.row ? "row" : "column" }}
+      style={{
+        flexDirection: GC.direction === Direction.row ? "row" : "column",
+      }}
     >
       <div className={props.previewGlass ? "glass--inner" : ""} style={style}>
         {props.previewGlass && props.pause && !props.gameOver && (
@@ -72,22 +59,22 @@ export const Glass: React.FC<GameFieldProps> = (props) => {
       {props.previewGlass && (
         <div
           className={`glass--preview glass--preview--${
-            DIRECTION === Direction.row ? "right" : "bottom"
+            GC.direction === Direction.row ? "right" : "bottom"
           }`}
           style={{
-            flexDirection: DIRECTION === Direction.row ? "column" : "row",
+            flexDirection: GC.direction === Direction.row ? "column" : "row",
           }}
         >
           <Info
-            width={CELL_SIZE * 3 + 10}
+            width={GC.cellSize * 3 + 10}
             score={props.score!}
             speed={props.speed!}
           ></Info>
           <Glass
             glass={{
               rows: props.previewGlass.rows,
-              maxWidth: CELL_SIZE * 3,
-              maxHight: CELL_SIZE * 4,
+              maxWidth: GC.cellSize * 3,
+              maxHight: GC.cellSize * 4,
             }}
             previewGlass={undefined}
           />

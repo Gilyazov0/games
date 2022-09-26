@@ -1,23 +1,22 @@
 import React from "react";
+import { CellData } from "./interfaces";
 
 export interface CellProps {
-  cellSize?: number;
-  color: string;
-  isFilled: boolean;
+  data: CellData;
 }
 
 export const Cell: React.FC<CellProps> = (props) => {
-  if (!props.cellSize) throw Error("Attempting to render zero size cell");
+  if (!props.data.cellSize) throw Error("Attempting to render zero size cell");
 
   const style = {
-    width: `${props.cellSize}px`,
-    height: `${props.cellSize}px`,
+    width: `${props.data.cellSize}px`,
+    height: `${props.data.cellSize}px`,
   };
   return (
     <div style={style} className="cell--outer">
       <div
-        className={`cell ${props.isFilled ? "cell--full" : "cell--empty"}`}
-        style={{ backgroundColor: props.color }}
+        className={`cell ${props.data.isFilled ? "cell--full" : "cell--empty"}`}
+        style={{ backgroundColor: props.data.color }}
       ></div>
     </div>
   );

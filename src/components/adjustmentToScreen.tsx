@@ -1,4 +1,4 @@
-import { Direction } from "./constants";
+import { Direction } from "./interfaces";
 
 export function adjustmentToScreenSize(
   rowsCount: number,
@@ -20,6 +20,6 @@ export function adjustmentToScreenSize(
   cellSizeByCols = (maxWidth - margin) / (colsCount + addCols);
 
   let cellSize = Math.min(cellSizeByRows, cellSizeByCols);
-  cellSize = Math.floor(cellSize) - 1;
+  cellSize = Math.floor(cellSize) - 2;
   return [cellSize, direction];
 }

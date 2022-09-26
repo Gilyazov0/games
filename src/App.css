@@ -4,6 +4,7 @@
   border-radius: 20%;
   box-sizing: border-box;
   margin: 0px;
+  background-color: rgb(119, 21, 21);
 }
 
 .cell--outer {
@@ -12,9 +13,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid;
-  margin: -1px;
-  border-color: rgb(245, 245, 245);
+  border-top: 1px solid;
+  border-left: 1px solid;
+  margin-top: -1px;
+  margin-left: -1px;
+  border-color: rgb(240, 240, 240);
+  /* border-color: rgb(153, 15, 21); */
 }
 
 .cell--full {

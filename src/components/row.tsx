@@ -1,9 +1,10 @@
 import React from "react";
-import { Cell, CellProps } from "./cell";
+import { Cell } from "./cell";
+import { CellData } from "./interfaces";
 
 export interface RowProps {
   ids?: (number | string)[];
-  cells: CellProps[];
+  cells: CellData[];
 }
 
 export const Row: React.FC<RowProps> = (props) => {
@@ -17,9 +18,11 @@ export const Row: React.FC<RowProps> = (props) => {
     return (
       <Cell
         key={props.ids ? props.ids[index] : index}
-        cellSize={cell.cellSize}
-        color={props.cells[index].color}
-        isFilled={props.cells[index].isFilled}
+        data={{
+          cellSize: cell.cellSize,
+          color: props.cells[index].color,
+          isFilled: props.cells[index].isFilled,
+        }}
       />
     );
   });

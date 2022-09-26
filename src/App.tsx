@@ -1,16 +1,12 @@
 import "./App.css";
-import { Glass, RowData } from "./components/glass";
+import { Glass } from "./components/glass";
 import React from "react";
 //import shortid from "shortid";
-import {
-  TOUCH_ZONE_SIZE_X,
-  SENSITIVITY,
-  TOUCH_ZONE_SIZE_Y,
-  Figure,
-  ROWS_NUM,
-  COLS_NUM,
-} from "./components/constants";
+import { gameConstants as GC, setConstants } from "./components/constants";
 import { GlassManipulations as GM } from "./components/glassManipulations";
+import { Figure, RowData } from "./components/interfaces";
+
+setConstants("tetris");
 interface GameState {
   glass: RowData[];
   score: number;
@@ -23,9 +19,9 @@ interface GameState {
 
 const App: React.FC = () => {
   const [state, setState] = React.useState<GameState>({
-    glass: GM.getEmptyGlass(ROWS_NUM, COLS_NUM),
-    figure: GM.getNewFigure(COLS_NUM),
-    nextFigure: GM.getNewFigure(COLS_NUM),
+    glass: GM.getEmptyGlass(GC.rows, GC.cols),
+    figure: GM.getNewFigure(GC.cols),
+    nextFigure: GM.getNewFigure(GC.cols),
     score: 0,
     speed: 1,
     pause: false,
@@ -50,12 +46,12 @@ const App: React.FC = () => {
           figure: newFigure,
         };
       else if (dy > 0) {
-        if (prevState.figure.y === 0) {
+        if (prevState.figure.figureCoordinates.y === 0) {
           return {
             ...prevState,
             figure: prevState.nextFigure,
-            nextFigure: GM.getNewFigure(COLS_NUM),
-            glass: GM.getEmptyGlass(ROWS_NUM, COLS_NUM),
+            nextFigure: GM.getNewFigure(GC.cols),
+            glass: GM.getEmptyGlass(GC.rows, GC.cols),
             lastScore: prevState.score,
             lastSpeed: prevState.speed,
             speed: 1,
@@ -73,7 +69,7 @@ const App: React.FC = () => {
           return {
             ...prevState,
             figure: prevState.nextFigure,
-            nextFigure: GM.getNewFigure(COLS_NUM),
+            nextFigure: GM.getNewFigure(GC.cols),
             glass: newGlass,
             score: prevState.score + add_score,
             speed: 1 + Math.floor((prevState.score + add_score) / 20),
@@ -131,10 +127,10 @@ const App: React.FC = () => {
     const y = event.changedTouches[0].clientY;
     event.stopPropagation();
     event.preventDefault();
-    if (y > window.innerHeight * (1 - TOUCH_ZONE_SIZE_Y)) setAction("MoveDown");
-    else if (y < window.innerHeight * TOUCH_ZONE_SIZE_Y) togglePause();
-    else if (x < window.innerWidth * TOUCH_ZONE_SIZE_X) setAction("MoveLeft");
-    else if (x > window.innerWidth * (1 - TOUCH_ZONE_SIZE_X))
+    if (y > window.innerHeight * (1 - GC.touchZoneSizeY)) setAction("MoveDown");
+    else if (y < window.innerHeight * GC.touchZoneSizeY) togglePause();
+    else if (x < window.innerWidth * GC.touchZoneSizeX) setAction("MoveLeft");
+    else if (x > window.innerWidth * (1 - GC.touchZoneSizeX))
       setAction("MoveRight");
     else setAction("Rotate");
   }
@@ -158,7 +154,7 @@ const App: React.FC = () => {
 
   React.useEffect(() => {
     makeAction();
-    let interval = window.setInterval(() => makeAction(), SENSITIVITY);
+    let interval = window.setInterval(() => makeAction(), GC.sensitivity);
     return () => {
       window.clearInterval(interval);
     };
@@ -207,7 +203,7 @@ const App: React.FC = () => {
           speed={state.speed}
           previewGlass={{
             rows: GM.putFigure(
-              { ...state.nextFigure, x: 0 },
+              { ...state.nextFigure, figureCoordinates: { x: 0, y: 0 } },
               GM.getEmptyGlass(4, 3)
             ),
             maxHight: 1,

@@ -1,36 +1,34 @@
 import cloneDeep from "lodash.clonedeep";
-import { CellProps } from "./cell";
-import { CELL_SIZE, colorsArr, Figure, figuresArr } from "./constants";
-import { RowData } from "./glass";
+import { gameConstants as GC } from "./constants";
+import { Figure, CellData, RowData } from "./interfaces";
 
 export class GlassManipulations {
   private static last_row_id = Number.MIN_VALUE;
 
   private static getRandomColor(): string {
-    return colorsArr[Math.floor(Math.random() * colorsArr.length)];
+    return GC.colorsArr[Math.floor(Math.random() * GC.colorsArr.length)];
   }
 
   static getNewFigure(cols: number): Figure {
-    const figNum: number = Math.floor(Math.random() * figuresArr.length);
+    const figNum: number = Math.floor(Math.random() * GC.figuresArr.length);
     const color: string = this.getRandomColor();
     return {
-      ...figuresArr[figNum],
-      cells: figuresArr[figNum].cells.map((cell) => ({
+      ...GC.figuresArr[figNum],
+      cells: GC.figuresArr[figNum].cells.map((cell) => ({
         ...cell,
-        value: { ...cell.value, color: color },
+        value: { ...cell.value, color: color } as CellData,
       })),
-      x: Math.floor((cols - 2) / 2),
-      y: 0,
+      figureCoordinates: { x: Math.floor((cols - 2) / 2), y: 0 },
     };
   }
 
   static getEmptyRow(cols: number): RowData {
-    const row: CellProps[] = new Array<CellProps>(cols).fill({
+    const row: CellData[] = new Array<CellData>(cols).fill({
       isFilled: false,
       color: "#FFFFFF",
-      cellSize: CELL_SIZE,
+      cellSize: GC.cellSize,
     });
-    const res = { id: this.last_row_id, row: { cells: row } };
+    const res = { id: this.last_row_id, cells: row };
     this.last_row_id++;
     return res;
   }
@@ -53,8 +51,8 @@ export class GlassManipulations {
 
   private static getRealCords(figure: Figure, cellIndex: number) {
     const result = {
-      x: figure.x! + figure.cells[cellIndex].x,
-      y: figure.y! + figure.cells[cellIndex].y,
+      x: figure.figureCoordinates.x! + figure.cells[cellIndex].relativeCoords.x,
+      y: figure.figureCoordinates.y! + figure.cells[cellIndex].relativeCoords.y,
     };
     return result;
   }
@@ -66,23 +64,27 @@ export class GlassManipulations {
     rotate: boolean
   ): Figure {
     let newCells = figure.cells;
-    const x0 = figure.x0;
-    const y0 = figure.y0;
+    const x0 = figure.rotationPoint.x;
+    const y0 = figure.rotationPoint.y;
     if (rotate) {
       newCells = [];
       for (let i = 0; i < figure.cells.length; i++) {
         newCells.push({
           ...figure.cells[i],
-          x: x0 - (figure.cells[i].y - y0),
-          y: y0 + (figure.cells[i].x - x0),
+          relativeCoords: {
+            x: x0 - (figure.cells[i].relativeCoords.y - y0),
+            y: y0 + (figure.cells[i].relativeCoords.x - x0),
+          },
         });
       }
     }
 
     return {
       ...figure,
-      x: figure.x! + dx,
-      y: figure.y! + dy,
+      figureCoordinates: {
+        x: figure.figureCoordinates.x + dx,
+        y: figure.figureCoordinates.y + dy,
+      },
       cells: newCells,
     };
   }
@@ -92,8 +94,8 @@ export class GlassManipulations {
 
     for (let i = 0; i < figure.cells.length; i++) {
       const coords = this.getRealCords(figure, i);
-      newGlass[coords.y].row.cells[coords.x] = {
-        ...newGlass[coords.y].row.cells[coords.x],
+      newGlass[coords.y].cells[coords.x] = {
+        ...newGlass[coords.y].cells[coords.x],
         ...figure.cells[i].value,
       };
     }
@@ -104,9 +106,8 @@ export class GlassManipulations {
     for (let i = 0; i < figure.cells.length; i++) {
       const coords = this.getRealCords(figure, i);
       if (coords.y < 0 || coords.y > glass.length - 1) return false;
-      if (coords.x < 0 || coords.x > glass[0].row.cells.length - 1)
-        return false;
-      if (glass[coords.y].row.cells[coords.x].isFilled === true) return false;
+      if (coords.x < 0 || coords.x > glass[0].cells.length - 1) return false;
+      if (glass[coords.y].cells[coords.x].isFilled === true) return false;
     }
     return true;
   }
@@ -118,10 +119,10 @@ export class GlassManipulations {
     let add_score = 0;
     const newGlass = [];
     for (let i = 0; i < glass.length; i++) {
-      if (!glass[i].row.cells.every((cell) => cell.isFilled === true)) {
+      if (!glass[i].cells.every((cell) => cell.isFilled === true)) {
         newGlass.push(this.copyRow(glass[i]));
       } else {
-        newGlass.unshift(this.getEmptyRow(glass[i].row.cells.length));
+        newGlass.unshift(this.getEmptyRow(glass[i].cells.length));
         add_score += 1;
       }
     }
