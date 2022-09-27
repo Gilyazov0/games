@@ -212,7 +212,33 @@ export function setConstants(game: "tetris" | "snake"): void {
         cellSize: cellSize,
         direction: direction,
         colorsArr: ["#42e6f5", "#42c2f5", "#42aaf5", "#429cf5", "#4284f5"],
-        figuresArr: [],
+        figuresArr: [
+          //  XX
+          {
+            rotationPoint: {
+              x: 0,
+              y: 0,
+            },
+            cells: [
+              {
+                relativeCoords: { x: 0, y: 0 },
+                value: { isFilled: true, color: "#FFFFFF" },
+              },
+              {
+                relativeCoords: { x: 1, y: 0 },
+                value: { isFilled: true, color: "#00FF00" },
+              },
+              {
+                relativeCoords: { x: 2, y: 0 },
+                value: { isFilled: true, color: "#00FF00" },
+              },
+              {
+                relativeCoords: { x: 3, y: 0 },
+                value: { isFilled: true, color: "#00FF00" },
+              },
+            ],
+          },
+        ],
       };
       break;
     }

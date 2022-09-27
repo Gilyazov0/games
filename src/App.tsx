@@ -3,25 +3,20 @@ import { Glass } from "./components/glass";
 import React from "react";
 //import shortid from "shortid";
 import { gameConstants as GC, setConstants } from "./components/constants";
-import { GlassManipulations as GM } from "./components/glassManipulations";
-import { Figure, RowData } from "./components/interfaces";
+import { TetrisManipulations as GM } from "./components/tetrisManipulations";
+import { GameState as GS, Figure } from "./components/interfaces";
 
 setConstants("tetris");
-interface GameState {
-  glass: RowData[];
-  score: number;
-  speed: number;
-  pause: boolean;
-  gameOver: boolean;
-  figure: Figure;
+
+interface GameState extends GS {
   nextFigure: Figure;
 }
 
 const App: React.FC = () => {
   const [state, setState] = React.useState<GameState>({
     glass: GM.getEmptyGlass(GC.rows, GC.cols),
-    figure: GM.getNewFigure(GC.cols),
-    nextFigure: GM.getNewFigure(GC.cols),
+    figure: GM.getNewFigure(),
+    nextFigure: GM.getNewFigure(),
     score: 0,
     speed: 1,
     pause: false,
@@ -50,7 +45,7 @@ const App: React.FC = () => {
           return {
             ...prevState,
             figure: prevState.nextFigure,
-            nextFigure: GM.getNewFigure(GC.cols),
+            nextFigure: GM.getNewFigure(),
             glass: GM.getEmptyGlass(GC.rows, GC.cols),
             lastScore: prevState.score,
             lastSpeed: prevState.speed,
@@ -69,7 +64,7 @@ const App: React.FC = () => {
           return {
             ...prevState,
             figure: prevState.nextFigure,
-            nextFigure: GM.getNewFigure(GC.cols),
+            nextFigure: GM.getNewFigure(),
             glass: newGlass,
             score: prevState.score + add_score,
             speed: 1 + Math.floor((prevState.score + add_score) / 20),
@@ -187,7 +182,6 @@ const App: React.FC = () => {
       window.removeEventListener("touchend", clearAction);
     };
   }, []);
-
   return (
     <div className="App">
       <header className="App-header">

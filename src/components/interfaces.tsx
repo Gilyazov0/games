@@ -54,3 +54,12 @@ export interface GlassData {
   maxHight: number;
   maxWidth: number;
 }
+
+export interface GameState {
+  glass: RowData[];
+  score: number;
+  speed: number;
+  pause: boolean;
+  gameOver: boolean;
+  figure: Figure;
+}
