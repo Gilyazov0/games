@@ -1,6 +1,6 @@
-import { GameManipulations } from "./gameManipulations";
-import { Coordinates, Figure, RowData } from "./interfaces";
-import { gameConstants as GC } from "./constants";
+import { GameManipulations } from "../GameManipulations";
+import { Coordinates, Figure, RowData } from "../Interfaces";
+import { gameConstants as GC } from "../Constants";
 import cloneDeep from "lodash.clonedeep";
 
 export class SnakeManipulations extends GameManipulations {
@@ -19,7 +19,7 @@ export class SnakeManipulations extends GameManipulations {
     quantity: number,
     field: RowData[]
   ): RowData[] {
-    const newField = this.copyGlass(field);
+    const newField = this.copyField(field);
     let count = 0;
     while (count < quantity) {
       let isValid = false;
@@ -27,12 +27,16 @@ export class SnakeManipulations extends GameManipulations {
         isValid = true;
         const row = Math.floor(Math.random() * GC.rows);
         const col = Math.floor(Math.random() * GC.cols);
+
         for (let i = 0; i < figure.cells.length; i++) {
           const cellCoords = this.getRealCords(figure, i);
           if (row === cellCoords.y && col === cellCoords.x) {
             isValid = false;
           }
         }
+
+        isValid = !newField[row].cells[col].isFilled;
+
         if (isValid) {
           newField[row].cells[col] = {
             color: "#a3122d",
@@ -51,6 +55,13 @@ export class SnakeManipulations extends GameManipulations {
     return field[coords.y].cells[coords.x].isFilled;
   }
 
+  static colorSnake(figure: Figure) {
+    const gradient = Math.floor(200 / figure.cells.length);
+    for (let i = 0; i < figure.cells.length; i++) {
+      figure.cells[i].value.color = `rgb(0,${55 + i * gradient},0)`;
+    }
+  }
+
   static getMovedFigure(
     figure: Figure,
     dx: number,
@@ -66,16 +77,12 @@ export class SnakeManipulations extends GameManipulations {
       y: figure.figureCoordinates.y + dy,
     };
 
-    newCells[0].value.color = "rgb(0,55,0)";
-    const color = Math.floor(200 / newCells.length);
-
     for (let i = 1; i < newCells.length; i++) {
       const temp = this.getRealCords(figure, i);
       newCells[i].relativeCoords = {
         x: prevCoords.x - newFigureCoords.x,
         y: prevCoords.y - newFigureCoords.y,
       };
-      newCells[i].value.color = `rgb(0,${55 + i * color},0)`;
       prevCoords = temp;
     }
 
@@ -87,12 +94,14 @@ export class SnakeManipulations extends GameManipulations {
       };
       newCells.push(newCell);
     }
-
-    return {
+    const newFigure = {
       ...figure,
       figureCoordinates: newFigureCoords,
       cells: newCells,
     };
+    this.colorSnake(newFigure);
+
+    return newFigure;
   }
 
   static isValidPosition(oldFigure: Figure, coords: Coordinates): boolean {

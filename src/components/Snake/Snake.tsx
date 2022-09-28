@@ -1,11 +1,10 @@
 import React from "react";
-import { SnakeManipulations as GM } from "./components/snakeManipulations";
-import SnakeField from "./components/snakeField";
-import "./App.css";
-import { setConstants, gameConstants as GC } from "./components/constants";
-import { GameState as GS } from "./components/interfaces";
+import { SnakeManipulations as GM } from "./SnakeManipulations";
+import SnakeField from "./SnakeField";
 
-setConstants("snake");
+import { setConstants, gameConstants as GC } from "../Constants";
+import { GameState as GS } from "../Interfaces";
+
 enum Actions {
   "MoveUp",
   "MoveDown",
@@ -17,20 +16,23 @@ interface GameState extends GS {
   lastTik: number;
 }
 
-const Snake: React.FC = () => {
-  const f = GM.getNewFigure();
-  f.cells[0].value.color = "rgb(0,70,0)";
-
+const Snake: React.FC<{ exitToMenu: Function }> = (props) => {
+  const figure = GM.getNewFigure();
+  GM.colorSnake(figure);
+  const field = GM.getEmptyField(GC.rows, GC.cols);
   const [state, setState] = React.useState<GameState>({
-    glass: GM.putFood(f, 3, GM.getEmptyGlass(GC.rows, GC.cols)),
-    figure: f,
+    field: GM.putFood(figure, 3, field),
+    figure: figure,
     score: 0,
     speed: 1,
     pause: false,
     gameOver: false,
     lastTik: Date.now(),
   });
-  const [action, setAction] = React.useState(Actions.MoveUp);
+  const [action, setAction] = React.useState({
+    nextAction: Actions.MoveLeft,
+    currentAction: Actions.MoveLeft,
+  });
 
   function moveFigure(dx: number, dy: number, rotate = false) {
     setState((prevState: GameState) => {
@@ -39,23 +41,23 @@ const Snake: React.FC = () => {
         prevState.figure,
         dx,
         dy,
-        prevState.glass
+        prevState.field
       );
 
       if (!GM.isValidPosition(prevState.figure, newFigure.figureCoordinates)) {
         return { ...prevState, gameOver: true };
       }
 
-      if (GM.isFood(newFigure.figureCoordinates, prevState.glass)) {
+      if (GM.isFood(newFigure.figureCoordinates, prevState.field)) {
         const newField = GM.clearCell(
           newFigure.figureCoordinates,
-          prevState.glass
+          prevState.field
         );
         return {
           ...prevState,
           figure: newFigure,
           lastTik: Date.now(),
-          glass: GM.putFood(newFigure, 1, newField),
+          field: GM.putFood(newFigure, 1, newField),
           score: prevState.score + 1,
           speed: Math.ceil((prevState.score + 1) / 10),
         };
@@ -69,17 +71,34 @@ const Snake: React.FC = () => {
   }
 
   function makeAction(): void {
-    switch (action) {
+    if (state.gameOver) return;
+    switch (action.nextAction) {
       case Actions.MoveUp:
+        setAction({
+          currentAction: Actions.MoveUp,
+          nextAction: Actions.MoveUp,
+        });
         moveFigure(0, -1, false);
         break;
       case Actions.MoveDown:
+        setAction({
+          currentAction: Actions.MoveDown,
+          nextAction: Actions.MoveDown,
+        });
         moveFigure(0, 1, false);
         break;
       case Actions.MoveLeft:
+        setAction({
+          currentAction: Actions.MoveLeft,
+          nextAction: Actions.MoveLeft,
+        });
         moveFigure(-1, 0, false);
         break;
       case Actions.MoveRight:
+        setAction({
+          currentAction: Actions.MoveRight,
+          nextAction: Actions.MoveRight,
+        });
         moveFigure(1, 0, false);
         break;
       default:
@@ -96,23 +115,43 @@ const Snake: React.FC = () => {
   function handleUserKeyPress(event: KeyboardEvent): void {
     switch (event.key) {
       case "ArrowUp":
-        if (action === Actions.MoveLeft || action === Actions.MoveRight) {
-          setAction(Actions.MoveUp);
+        if (
+          action.currentAction === Actions.MoveLeft ||
+          action.currentAction === Actions.MoveRight
+        ) {
+          setAction((prevAction) => {
+            return { ...prevAction, nextAction: Actions.MoveUp };
+          });
         }
         break;
       case "ArrowDown":
-        if (action === Actions.MoveLeft || action === Actions.MoveRight) {
-          setAction(Actions.MoveDown);
+        if (
+          action.currentAction === Actions.MoveLeft ||
+          action.currentAction === Actions.MoveRight
+        ) {
+          setAction((prevAction) => {
+            return { ...prevAction, nextAction: Actions.MoveDown };
+          });
         }
         break;
       case "ArrowLeft":
-        if (action === Actions.MoveUp || action === Actions.MoveDown) {
-          setAction(Actions.MoveLeft);
+        if (
+          action.currentAction === Actions.MoveUp ||
+          action.currentAction === Actions.MoveDown
+        ) {
+          setAction((prevAction) => {
+            return { ...prevAction, nextAction: Actions.MoveLeft };
+          });
         }
         break;
       case "ArrowRight":
-        if (action === Actions.MoveUp || action === Actions.MoveDown) {
-          setAction(Actions.MoveRight);
+        if (
+          action.currentAction === Actions.MoveUp ||
+          action.currentAction === Actions.MoveDown
+        ) {
+          setAction((prevAction) => {
+            return { ...prevAction, nextAction: Actions.MoveRight };
+          });
         }
         break;
       case " ":
@@ -144,8 +183,8 @@ const Snake: React.FC = () => {
 
   return (
     <SnakeField
-      glass={{
-        rows: GM.putFigure(state.figure, state.glass),
+      field={{
+        rows: GM.putFigure(state.figure, state.field),
         maxWidth: Math.min(window.innerWidth, window.screen.width),
         maxHight: Math.min(window.innerHeight, window.screen.height),
       }}
@@ -153,6 +192,7 @@ const Snake: React.FC = () => {
       gameOver={state.gameOver}
       score={state.score}
       speed={state.speed}
+      exitToMenu={props.exitToMenu}
     />
   );
 };

@@ -1,5 +1,5 @@
-import { Figure, RowData } from "./interfaces";
-import { GameManipulations } from "./gameManipulations";
+import { Figure, RowData } from "../Interfaces";
+import { GameManipulations } from "../GameManipulations";
 
 export class TetrisManipulations extends GameManipulations {
   static getMovedFigure(
@@ -34,30 +34,30 @@ export class TetrisManipulations extends GameManipulations {
     };
   }
 
-  static isValidPosition(figure: Figure, glass: RowData[]): boolean {
+  static isValidPosition(figure: Figure, field: RowData[]): boolean {
     for (let i = 0; i < figure.cells.length; i++) {
       const coords = this.getRealCords(figure, i);
-      if (coords.y < 0 || coords.y > glass.length - 1) return false;
-      if (coords.x < 0 || coords.x > glass[0].cells.length - 1) return false;
-      if (glass[coords.y].cells[coords.x].isFilled === true) return false;
+      if (coords.y < 0 || coords.y > field.length - 1) return false;
+      if (coords.x < 0 || coords.x > field[0].cells.length - 1) return false;
+      if (field[coords.y].cells[coords.x].isFilled === true) return false;
     }
     return true;
   }
 
-  static getClearedGlass(glass: RowData[]): {
-    glass: RowData[];
+  static getClearedField(field: RowData[]): {
+    field: RowData[];
     add_score: number;
   } {
     let add_score = 0;
-    const newGlass = [];
-    for (let i = 0; i < glass.length; i++) {
-      if (!glass[i].cells.every((cell) => cell.isFilled === true)) {
-        newGlass.push(this.copyRow(glass[i]));
+    const newField = [];
+    for (let i = 0; i < field.length; i++) {
+      if (!field[i].cells.every((cell) => cell.isFilled === true)) {
+        newField.push(this.copyRow(field[i]));
       } else {
-        newGlass.unshift(this.getEmptyRow(glass[i].cells.length));
+        newField.unshift(this.getEmptyRow(field[i].cells.length));
         add_score += 1;
       }
     }
-    return { glass: newGlass, add_score: add_score };
+    return { field: newField, add_score: add_score };
   }
 }

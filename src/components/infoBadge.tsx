@@ -2,11 +2,14 @@ import React from "react";
 
 interface InfoBadgeProps {
   description: string;
-  value: number;
+  value?: number;
   width: number;
 }
 export const InfoBadge: React.FC<InfoBadgeProps> = (props) => {
-  const message = `${props.description}:${props.value}`;
+  const message: string =
+    props.value !== undefined
+      ? `${props.description}:${props.value}`
+      : props.description;
   const fontSize = props.width / message.length;
 
   return (

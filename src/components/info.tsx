@@ -1,5 +1,5 @@
 import React from "react";
-import InfoBadge from "./infoBadge";
+import InfoBadge from "./InfoBadge";
 
 interface InfoProps {
   width: number;

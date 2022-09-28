@@ -1,9 +1,9 @@
-import { adjustmentToScreenSize } from "./adjustmentToScreen";
-import { GameConstants } from "./interfaces";
-
-export function setConstants(game: "tetris" | "snake"): void {
+import { adjustmentToScreenSize } from "./AdjustmentToScreen";
+import { GameConstants } from "./Interfaces";
+import { Apps } from "./Interfaces";
+export function setConstants(game: Apps): void {
   switch (game) {
-    case "tetris": {
+    case Apps.tetris: {
       const [cellSize, direction] = adjustmentToScreenSize(20, 10);
       gameConstants = {
         touchZoneSizeX: 0.25,
@@ -202,7 +202,7 @@ export function setConstants(game: "tetris" | "snake"): void {
       break;
     }
 
-    case "snake": {
+    case Apps.snake: {
       const [cellSize, direction] = adjustmentToScreenSize(20, 20);
       gameConstants = {
         touchZoneSizeX: 0.25,
@@ -213,7 +213,7 @@ export function setConstants(game: "tetris" | "snake"): void {
         baseSpeed: 800,
         cellSize: cellSize,
         direction: direction,
-        colorsArr: ["#42e6f5", "#42c2f5", "#42aaf5", "#429cf5", "#4284f5"],
+        colorsArr: ["rgb(0,200,0)"],
         figuresArr: [
           //  XX
           {

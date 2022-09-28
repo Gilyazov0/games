@@ -3,6 +3,12 @@ export interface Coordinates {
   y: number;
 }
 
+export enum Apps {
+  "menu",
+  "snake",
+  "tetris",
+}
+
 export interface AbstractCellData {
   color: string;
   isFilled: boolean;
@@ -50,14 +56,14 @@ export interface RowData {
   id: number | string;
 }
 
-export interface GlassData {
+export interface FieldData {
   rows: RowData[];
   maxHight: number;
   maxWidth: number;
 }
 
 export interface GameState {
-  glass: RowData[];
+  field: RowData[];
   score: number;
   speed: number;
   pause: boolean;

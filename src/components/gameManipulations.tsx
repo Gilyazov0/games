@@ -1,27 +1,15 @@
 import cloneDeep from "lodash.clonedeep";
-import { gameConstants as GC } from "./constants";
-import { Figure, CellData, RowData, Coordinates } from "./interfaces";
+import { gameConstants as GC } from "./Constants";
+import { Figure, CellData, RowData, Coordinates } from "./Interfaces";
 
 export class GameManipulations {
   private static last_row_id = Number.MIN_VALUE;
 
-  private static getRandomColor(): string {
-    return GC.colorsArr[Math.floor(Math.random() * GC.colorsArr.length)];
-  }
-
   static clearCell(coords: Coordinates, field: RowData[]): RowData[] {
-    const newField = this.copyGlass(field);
+    const newField = this.copyField(field);
     newField[coords.y].cells[coords.x].isFilled = false;
     newField[coords.y].cells[coords.x].color = "#FFFFFF";
     return newField;
-  }
-
-  protected static isInsideField(
-    coords: Coordinates,
-    rows: number,
-    cols: number
-  ): boolean {
-    return coords.x >= 0 && coords.y >= 0 && coords.x < cols && coords.y < rows;
   }
 
   static getNewFigure(): Figure {
@@ -37,7 +25,39 @@ export class GameManipulations {
     };
   }
 
-  static getEmptyRow(cols: number): RowData {
+  static getEmptyField(rows: number, cols: number): RowData[] {
+    const result = [];
+    for (let i = 0; i < rows; i++) {
+      result.push(this.getEmptyRow(cols));
+    }
+    return result;
+  }
+
+  static putFigure(figure: Figure, field: RowData[]) {
+    const newField = this.copyField(field);
+    for (let i = 0; i < figure.cells.length; i++) {
+      const coords = this.getRealCords(figure, i);
+      newField[coords.y].cells[coords.x] = {
+        ...newField[coords.y].cells[coords.x],
+        ...figure.cells[i].value,
+      };
+    }
+    return newField;
+  }
+
+  protected static getRandomColor(): string {
+    return GC.colorsArr[Math.floor(Math.random() * GC.colorsArr.length)];
+  }
+
+  protected static isInsideField(
+    coords: Coordinates,
+    rows: number,
+    cols: number
+  ): boolean {
+    return coords.x >= 0 && coords.y >= 0 && coords.x < cols && coords.y < rows;
+  }
+
+  protected static getEmptyRow(cols: number): RowData {
     const row: CellData[] = new Array<CellData>(cols).fill({
       isFilled: false,
       color: "#FFFFFF",
@@ -52,16 +72,8 @@ export class GameManipulations {
     return cloneDeep(row);
   }
 
-  static getEmptyGlass(rows: number, cols: number): RowData[] {
-    const result = [];
-    for (let i = 0; i < rows; i++) {
-      result.push(this.getEmptyRow(cols));
-    }
-    return result;
-  }
-
-  protected static copyGlass(glass: RowData[]): RowData[] {
-    return cloneDeep(glass);
+  protected static copyField(field: RowData[]): RowData[] {
+    return cloneDeep(field);
   }
 
   protected static getRealCords(
@@ -73,17 +85,5 @@ export class GameManipulations {
       y: figure.figureCoordinates.y + figure.cells[cellIndex].relativeCoords.y,
     };
     return result;
-  }
-
-  static putFigure(figure: Figure, glass: RowData[]) {
-    const newGlass = this.copyGlass(glass);
-    for (let i = 0; i < figure.cells.length; i++) {
-      const coords = this.getRealCords(figure, i);
-      newGlass[coords.y].cells[coords.x] = {
-        ...newGlass[coords.y].cells[coords.x],
-        ...figure.cells[i].value,
-      };
-    }
-    return newGlass;
   }
 }
