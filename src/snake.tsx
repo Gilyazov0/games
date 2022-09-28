@@ -19,7 +19,7 @@ interface GameState extends GS {
 
 const Snake: React.FC = () => {
   const f = GM.getNewFigure();
-  f.cells[0].value.color = "#FFFFFF";
+  f.cells[0].value.color = "rgb(0,70,0)";
 
   const [state, setState] = React.useState<GameState>({
     glass: GM.putFood(f, 3, GM.getEmptyGlass(GC.rows, GC.cols)),

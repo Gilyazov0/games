@@ -58,6 +58,7 @@ export class SnakeManipulations extends GameManipulations {
     field: RowData[]
   ): Figure {
     if (dx === 0 && dy === 0) return figure;
+
     let newCells = cloneDeep(figure.cells);
     let prevCoords = this.getRealCords(figure, 0);
     const newFigureCoords: Coordinates = {
@@ -65,12 +66,16 @@ export class SnakeManipulations extends GameManipulations {
       y: figure.figureCoordinates.y + dy,
     };
 
+    newCells[0].value.color = "rgb(0,55,0)";
+    const color = Math.floor(200 / newCells.length);
+
     for (let i = 1; i < newCells.length; i++) {
       const temp = this.getRealCords(figure, i);
       newCells[i].relativeCoords = {
         x: prevCoords.x - newFigureCoords.x,
         y: prevCoords.y - newFigureCoords.y,
       };
+      newCells[i].value.color = `rgb(0,${55 + i * color},0)`;
       prevCoords = temp;
     }
 
