@@ -9,6 +9,21 @@ export class GameManipulations {
     return GC.colorsArr[Math.floor(Math.random() * GC.colorsArr.length)];
   }
 
+  static clearCell(coords: Coordinates, field: RowData[]): RowData[] {
+    const newField = this.copyGlass(field);
+    newField[coords.y].cells[coords.x].isFilled = false;
+    newField[coords.y].cells[coords.x].color = "#FFFFFF";
+    return newField;
+  }
+
+  protected static isInsideField(
+    coords: Coordinates,
+    rows: number,
+    cols: number
+  ): boolean {
+    return coords.x >= 0 && coords.y >= 0 && coords.x < cols && coords.y < rows;
+  }
+
   static getNewFigure(): Figure {
     const figNum: number = Math.floor(Math.random() * GC.figuresArr.length);
     const color: string = this.getRandomColor();
@@ -45,7 +60,7 @@ export class GameManipulations {
     return result;
   }
 
-  private static copyGlass(glass: RowData[]): RowData[] {
+  protected static copyGlass(glass: RowData[]): RowData[] {
     return cloneDeep(glass);
   }
 

@@ -34,6 +34,7 @@ export interface GameConstants {
   cols: number;
   direction: Direction;
   cellSize: number;
+  baseSpeed: number;
   colorsArr: string[];
   figuresArr: AbstractFigure[];
 }

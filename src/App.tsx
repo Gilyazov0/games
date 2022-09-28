@@ -159,7 +159,7 @@ const App: React.FC = () => {
   React.useEffect(() => {
     let interval = window.setInterval(
       () => moveFigure(0, 1),
-      1000 / state.speed
+      GC.baseSpeed / state.speed
     );
     return () => {
       window.clearInterval(interval);

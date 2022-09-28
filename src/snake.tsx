@@ -22,7 +22,7 @@ const Snake: React.FC = () => {
   f.cells[0].value.color = "#FFFFFF";
 
   const [state, setState] = React.useState<GameState>({
-    glass: GM.putFood(f),
+    glass: GM.putFood(f, 3, GM.getEmptyGlass(GC.rows, GC.cols)),
     figure: f,
     score: 0,
     speed: 1,
@@ -47,11 +47,15 @@ const Snake: React.FC = () => {
       }
 
       if (GM.isFood(newFigure.figureCoordinates, prevState.glass)) {
+        const newField = GM.clearCell(
+          newFigure.figureCoordinates,
+          prevState.glass
+        );
         return {
           ...prevState,
           figure: newFigure,
           lastTik: Date.now(),
-          glass: GM.putFood(newFigure),
+          glass: GM.putFood(newFigure, 1, newField),
           score: prevState.score + 1,
           speed: Math.ceil((prevState.score + 1) / 10),
         };
@@ -128,10 +132,9 @@ const Snake: React.FC = () => {
   }, [action]);
 
   React.useEffect(() => {
-    console.log(state.lastTik - Date.now() + 1000 / state.speed);
     let interval = window.setInterval(
       () => makeAction(),
-      state.lastTik - Date.now() + 1000 / state.speed
+      state.lastTik - Date.now() + GC.baseSpeed / state.speed
     );
     return () => {
       window.clearInterval(interval);

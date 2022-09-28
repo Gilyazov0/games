@@ -14,30 +14,40 @@ export class SnakeManipulations extends GameManipulations {
     };
   }
 
-  static putFood(figure: Figure): RowData[] {
-    const field = this.getEmptyGlass(GC.rows, GC.cols);
-    let isValid = false;
-    while (!isValid) {
-      isValid = true;
-      const row = Math.floor(Math.random() * GC.rows);
-      const col = Math.floor(Math.random() * GC.cols);
-      for (let i = 0; i < figure.cells.length; i++) {
-        const cellCoords = this.getRealCords(figure, i);
-        if (row === cellCoords.y && col === cellCoords.x) isValid = false;
-      }
-      if (isValid) {
-        field[row].cells[col] = {
-          color: "#a3122d",
-          isFilled: true,
-          cellSize: GC.cellSize,
-        };
-        return field;
+  static putFood(
+    figure: Figure,
+    quantity: number,
+    field: RowData[]
+  ): RowData[] {
+    const newField = this.copyGlass(field);
+    let count = 0;
+    while (count < quantity) {
+      let isValid = false;
+      while (!isValid) {
+        isValid = true;
+        const row = Math.floor(Math.random() * GC.rows);
+        const col = Math.floor(Math.random() * GC.cols);
+        for (let i = 0; i < figure.cells.length; i++) {
+          const cellCoords = this.getRealCords(figure, i);
+          if (row === cellCoords.y && col === cellCoords.x) {
+            isValid = false;
+          }
+        }
+        if (isValid) {
+          newField[row].cells[col] = {
+            color: "#a3122d",
+            isFilled: true,
+            cellSize: GC.cellSize,
+          };
+          count++;
+        }
       }
     }
-    return field;
+    return newField;
   }
 
   static isFood(coords: Coordinates, field: RowData[]): boolean {
+    if (!this.isInsideField(coords, GC.rows, GC.cols)) return false;
     return field[coords.y].cells[coords.x].isFilled;
   }
 
@@ -81,13 +91,7 @@ export class SnakeManipulations extends GameManipulations {
   }
 
   static isValidPosition(oldFigure: Figure, coords: Coordinates): boolean {
-    if (
-      coords.x < 0 ||
-      coords.y < 0 ||
-      coords.x >= GC.cols ||
-      coords.y >= GC.rows
-    )
-      return false;
+    if (!this.isInsideField(coords, GC.rows, GC.cols)) return false;
 
     for (let i = 0; i < oldFigure.cells.length; i++) {
       if (
