@@ -15,12 +15,14 @@ export enum Actions {
   "MoveLeft",
   "MoveRight",
   "Rotate",
+  "Pause",
 }
 
 export interface AbstractCellData {
   color: string;
   isFilled: boolean;
 }
+
 export interface CellData extends AbstractCellData {
   cellSize: number;
 }
@@ -32,6 +34,7 @@ export interface AbstractFigure {
     value: AbstractCellData;
   }[];
 }
+
 export interface Figure extends Omit<AbstractFigure, "cells"> {
   cells: {
     relativeCoords: Coordinates;

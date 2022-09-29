@@ -1,6 +1,6 @@
 import React from "react";
 //import shortid from "shortid";
-import { gameConstants as GC } from "../Constants";
+import { gameConstants as GC } from "../../libs/сonstants";
 import { TetrisManipulations as GM } from "../../libs/tetris/tetrisManipulations";
 import { GameState as GS, Figure, Actions } from "../../libs/interfaces";
 import TetrisField from "./TetrisField";

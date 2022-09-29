@@ -3,7 +3,7 @@ import "./App.css";
 import Snake from "./components/Snake/Snake";
 import Tetris from "./components/Tetris/Tetris";
 import { Apps } from "./libs/interfaces";
-import { setConstants } from "./components/Constants";
+import { setConstants } from "./libs/сonstants";
 
 const App: React.FC = () => {
   const [app, setApp] = React.useState(Apps.menu);

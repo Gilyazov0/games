@@ -1,5 +1,5 @@
 import cloneDeep from "lodash.clonedeep";
-import { gameConstants as GC } from "../components/Constants";
+import { gameConstants as GC } from "./сonstants";
 import { Figure, CellData, RowData, Coordinates } from "./interfaces";
 
 export class GameManipulations {

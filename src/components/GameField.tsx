@@ -2,7 +2,7 @@ import React from "react";
 import Message from "./Message";
 import { Row } from "./Row";
 import { FieldData } from "../libs/interfaces";
-import { gameConstants as GC } from "./Constants";
+import { gameConstants as GC } from "../libs/сonstants";
 
 export interface GameFieldProps {
   pause?: boolean;

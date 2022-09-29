@@ -1,6 +1,6 @@
 import { GameManipulations } from "../gameManipulations";
 import { Coordinates, Figure, RowData } from "../interfaces";
-import { gameConstants as GC } from "../../components/Constants";
+import { gameConstants as GC } from "../сonstants";
 import cloneDeep from "lodash.clonedeep";
 
 export class SnakeManipulations extends GameManipulations {
@@ -108,7 +108,7 @@ export class SnakeManipulations extends GameManipulations {
   static isValidPosition(oldFigure: Figure, coords: Coordinates): boolean {
     if (!this.isInsideField(coords, GC.rows, GC.cols)) return false;
 
-    for (let i = 0; i < oldFigure.cells.length; i++) {
+    for (let i = 0; i < oldFigure.cells.length - 1; i++) {
       if (
         JSON.stringify(this.getRealCords(oldFigure, i)) ===
         JSON.stringify(coords)

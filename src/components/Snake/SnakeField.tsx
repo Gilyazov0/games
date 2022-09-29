@@ -2,7 +2,7 @@ import React from "react";
 import { Row, RowProps } from "../Row";
 import Info from "../Info";
 import Message from "../Message";
-import { gameConstants as GC } from "../Constants";
+import { gameConstants as GC } from "../../libs/сonstants";
 import { Direction } from "../../libs/interfaces";
 import { GameField, GameFieldProps } from "../GameField";
 

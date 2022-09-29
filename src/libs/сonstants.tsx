@@ -1,6 +1,7 @@
-import { adjustmentToScreenSize } from "../libs/adjustmentToScreen";
-import { GameConstants } from "../libs/interfaces";
-import { Apps } from "../libs/interfaces";
+import { adjustmentToScreenSize } from "./adjustmentToScreen";
+import { GameConstants } from "./interfaces";
+import { Apps } from "./interfaces";
+
 export function setConstants(game: Apps): void {
   switch (game) {
     case Apps.tetris: {

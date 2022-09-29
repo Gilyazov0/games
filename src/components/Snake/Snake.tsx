@@ -1,8 +1,7 @@
 import React from "react";
 import { SnakeManipulations as GM } from "../../libs/snake/snakeManipulations";
 import SnakeField from "./SnakeField";
-
-import { gameConstants as GC } from "../Constants";
+import { gameConstants as GC } from "../../libs/сonstants";
 import { GameState as GS, Actions } from "../../libs/interfaces";
 
 interface GameState extends GS {
@@ -106,9 +105,9 @@ const Snake: React.FC<{ exitToMenu: Function }> = (props) => {
     });
   }
 
-  function handleUserKeyPress(event: KeyboardEvent): void {
-    switch (event.key) {
-      case "ArrowUp":
+  function handleUserInput(input: Actions): void {
+    switch (input) {
+      case Actions.MoveUp:
         if (
           action.currentAction === Actions.MoveLeft ||
           action.currentAction === Actions.MoveRight
@@ -118,7 +117,7 @@ const Snake: React.FC<{ exitToMenu: Function }> = (props) => {
           });
         }
         break;
-      case "ArrowDown":
+      case Actions.MoveDown:
         if (
           action.currentAction === Actions.MoveLeft ||
           action.currentAction === Actions.MoveRight
@@ -128,7 +127,7 @@ const Snake: React.FC<{ exitToMenu: Function }> = (props) => {
           });
         }
         break;
-      case "ArrowLeft":
+      case Actions.MoveLeft:
         if (
           action.currentAction === Actions.MoveUp ||
           action.currentAction === Actions.MoveDown
@@ -138,7 +137,7 @@ const Snake: React.FC<{ exitToMenu: Function }> = (props) => {
           });
         }
         break;
-      case "ArrowRight":
+      case Actions.MoveRight:
         if (
           action.currentAction === Actions.MoveUp ||
           action.currentAction === Actions.MoveDown
@@ -148,13 +147,56 @@ const Snake: React.FC<{ exitToMenu: Function }> = (props) => {
           });
         }
         break;
-      case " ":
+      case Actions.Pause:
         togglePause();
+        break;
+    }
+  }
+
+  function handleUserKeyPress(event: KeyboardEvent): void {
+    switch (event.key) {
+      case "ArrowUp":
+        handleUserInput(Actions.MoveUp);
+        break;
+      case "ArrowDown":
+        handleUserInput(Actions.MoveDown);
+        break;
+      case "ArrowLeft":
+        handleUserInput(Actions.MoveLeft);
+        break;
+      case "ArrowRight":
+        handleUserInput(Actions.MoveRight);
+        break;
+      case " ":
+        handleUserInput(Actions.Pause);
         break;
       default:
         break;
     }
   }
+
+  function handleTouchStart(event: TouchEvent): void {
+    const x = event.changedTouches[0].clientX;
+    const y = event.changedTouches[0].clientY;
+    event.stopPropagation();
+    if (y > window.innerHeight * (1 - GC.touchZoneSizeY)) {
+      handleUserInput(Actions.MoveDown);
+    } else if (y < window.innerHeight * GC.touchZoneSizeY) {
+      handleUserInput(Actions.MoveUp);
+    } else if (x < window.innerWidth * GC.touchZoneSizeX) {
+      handleUserInput(Actions.MoveLeft);
+    } else if (x > window.innerWidth * (1 - GC.touchZoneSizeX)) {
+      handleUserInput(Actions.MoveRight);
+    } else handleUserInput(Actions.Pause);
+  }
+
+  React.useEffect(() => {
+    window.addEventListener("touchstart", handleTouchStart);
+    return () => {
+      window.removeEventListener("touchstart", handleTouchStart);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [action]);
 
   React.useEffect(() => {
     window.addEventListener("keydown", handleUserKeyPress);
