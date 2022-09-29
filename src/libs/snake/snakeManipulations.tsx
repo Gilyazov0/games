@@ -1,6 +1,6 @@
-import { GameManipulations } from "../GameManipulations";
-import { Coordinates, Figure, RowData } from "../Interfaces";
-import { gameConstants as GC } from "../Constants";
+import { GameManipulations } from "../gameManipulations";
+import { Coordinates, Figure, RowData } from "../interfaces";
+import { gameConstants as GC } from "../../components/Constants";
 import cloneDeep from "lodash.clonedeep";
 
 export class SnakeManipulations extends GameManipulations {

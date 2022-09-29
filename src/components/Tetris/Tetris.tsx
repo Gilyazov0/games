@@ -1,8 +1,8 @@
 import React from "react";
 //import shortid from "shortid";
 import { gameConstants as GC, setConstants } from "../Constants";
-import { TetrisManipulations as GM } from "./TetrisManipulations";
-import { GameState as GS, Figure } from "../Interfaces";
+import { TetrisManipulations as GM } from "../../libs/tetris/tetrisManipulations";
+import { GameState as GS, Figure } from "../../libs/interfaces";
 import TetrisField from "./TetrisField";
 
 interface GameState extends GS {

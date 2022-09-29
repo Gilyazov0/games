@@ -3,7 +3,7 @@ import { Row, RowProps } from "../Row";
 import Info from "../Info";
 import Message from "../Message";
 import { gameConstants as GC } from "../Constants";
-import { Direction } from "../Interfaces";
+import { Direction } from "../../libs/interfaces";
 import { GameField, GameFieldProps } from "../GameField";
 
 export const SnakeField: React.FC<GameFieldProps> = (props) => {
@@ -41,8 +41,8 @@ export const SnakeField: React.FC<GameFieldProps> = (props) => {
           score={props.score!}
           speed={props.speed!}
         ></Info>
-        <button className="exit--to--menu" id={"exitToMenu"}>
-          Exit
+        <button className="infoBadge exit--button" id={"exitToMenu"}>
+          EXIT
         </button>
       </div>
     </div>

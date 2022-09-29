@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import "./App.css";
 import Snake from "./components/Snake/Snake";
 import Tetris from "./components/Tetris/Tetris";
-import { Apps } from "./components/Interfaces";
+import { Apps } from "./libs/interfaces";
 import { setConstants } from "./components/Constants";
 
 const App: React.FC = () => {

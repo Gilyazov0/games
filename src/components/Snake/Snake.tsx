@@ -1,9 +1,9 @@
 import React from "react";
-import { SnakeManipulations as GM } from "./SnakeManipulations";
+import { SnakeManipulations as GM } from "../../libs/snake/snakeManipulations";
 import SnakeField from "./SnakeField";
 
 import { setConstants, gameConstants as GC } from "../Constants";
-import { GameState as GS } from "../Interfaces";
+import { GameState as GS } from "../../libs/interfaces";
 
 enum Actions {
   "MoveUp",
@@ -21,7 +21,7 @@ const Snake: React.FC<{ exitToMenu: Function }> = (props) => {
   GM.colorSnake(figure);
   const field = GM.getEmptyField(GC.rows, GC.cols);
   const [state, setState] = React.useState<GameState>({
-    field: GM.putFood(figure, 3, field),
+    field: GM.putFood(figure, 5, field),
     figure: figure,
     score: 0,
     speed: 1,

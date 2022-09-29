@@ -1,6 +1,6 @@
 import cloneDeep from "lodash.clonedeep";
-import { gameConstants as GC } from "./Constants";
-import { Figure, CellData, RowData, Coordinates } from "./Interfaces";
+import { gameConstants as GC } from "../components/Constants";
+import { Figure, CellData, RowData, Coordinates } from "./interfaces";
 
 export class GameManipulations {
   private static last_row_id = Number.MIN_VALUE;

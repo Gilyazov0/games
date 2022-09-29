@@ -1,7 +1,7 @@
 import React from "react";
 import Info from "../Info";
 import { gameConstants as GC } from "../Constants";
-import { Direction, FieldData, RowData } from "../Interfaces";
+import { Direction, FieldData, RowData } from "../../libs/interfaces";
 import { GameField, GameFieldProps as GF } from "../GameField";
 
 export interface GameFieldProps extends GF {
@@ -54,8 +54,8 @@ export const TetrisField: React.FC<GameFieldProps> = (props) => {
             previewField={undefined}
             exitToMenu={props.exitToMenu}
           />
-          <button className="exit--to--menu" id={"exitToMenu"}>
-            Exit
+          <button className="infoBadge exit--button" id={"exitToMenu"}>
+            EXIT
           </button>
         </div>
       )}

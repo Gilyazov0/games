@@ -1,7 +1,7 @@
 import React from "react";
 import Message from "./Message";
 import { Row } from "./Row";
-import { FieldData } from "./Interfaces";
+import { FieldData } from "../libs/interfaces";
 import { gameConstants as GC } from "./Constants";
 
 export interface GameFieldProps {

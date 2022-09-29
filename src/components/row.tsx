@@ -1,6 +1,6 @@
 import React from "react";
 import { Cell } from "./Cell";
-import { CellData } from "./Interfaces";
+import { CellData } from "../libs/interfaces";
 
 export interface RowProps {
   ids?: (number | string)[];

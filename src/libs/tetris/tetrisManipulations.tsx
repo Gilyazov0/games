@@ -1,5 +1,5 @@
-import { Figure, RowData } from "../Interfaces";
-import { GameManipulations } from "../GameManipulations";
+import { Figure, RowData } from "../interfaces";
+import { GameManipulations } from "../gameManipulations";
 
 export class TetrisManipulations extends GameManipulations {
   static getMovedFigure(
