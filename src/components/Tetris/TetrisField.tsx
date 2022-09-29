@@ -1,7 +1,7 @@
 import React from "react";
 import Info from "../Info";
 import { gameConstants as GC } from "../../libs/сonstants";
-import { Direction, FieldData, RowData } from "../../libs/interfaces";
+import { Direction, FieldData } from "../../libs/interfaces";
 import { GameField, GameFieldProps as GF } from "../GameField";
 
 export interface GameFieldProps extends GF {
