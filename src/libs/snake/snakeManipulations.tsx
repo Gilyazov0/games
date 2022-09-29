@@ -32,10 +32,11 @@ export class SnakeManipulations extends GameManipulations {
           const cellCoords = this.getRealCords(figure, i);
           if (row === cellCoords.y && col === cellCoords.x) {
             isValid = false;
+            continue;
           }
         }
 
-        isValid = !newField[row].cells[col].isFilled;
+        isValid = isValid && !newField[row].cells[col].isFilled;
 
         if (isValid) {
           newField[row].cells[col] = {
