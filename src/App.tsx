@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import "./App.css";
 import Snake from "./components/Snake/Snake";
 import Tetris from "./components/Tetris/Tetris";
