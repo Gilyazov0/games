@@ -1,8 +1,8 @@
 import React from "react";
 //import shortid from "shortid";
-import { gameConstants as GC, setConstants } from "../Constants";
+import { gameConstants as GC } from "../Constants";
 import { TetrisManipulations as GM } from "../../libs/tetris/tetrisManipulations";
-import { GameState as GS, Figure } from "../../libs/interfaces";
+import { GameState as GS, Figure, Actions } from "../../libs/interfaces";
 import TetrisField from "./TetrisField";
 
 interface GameState extends GS {
@@ -20,7 +20,7 @@ const App: React.FC<{ exitToMenu: Function }> = (props) => {
     gameOver: false,
   });
 
-  const [action, setAction] = React.useState("");
+  const [action, setAction] = React.useState<Actions | null>(null);
 
   function togglePause() {
     setState((prevState) => {
@@ -56,7 +56,7 @@ const App: React.FC<{ exitToMenu: Function }> = (props) => {
             GM.putFigure(prevState.figure, prevState.field)
           );
 
-          setAction("");
+          setAction(null);
 
           return {
             ...prevState,
@@ -76,16 +76,16 @@ const App: React.FC<{ exitToMenu: Function }> = (props) => {
   function handleUserKeyPress(event: KeyboardEvent): void {
     switch (event.key) {
       case "ArrowUp":
-        setAction("Rotate");
+        setAction(Actions.Rotate);
         break;
       case "ArrowDown":
-        setAction("MoveDown");
+        setAction(Actions.MoveDown);
         break;
       case "ArrowLeft":
-        setAction("MoveLeft");
+        setAction(Actions.MoveLeft);
         break;
       case "ArrowRight":
-        setAction("MoveRight");
+        setAction(Actions.MoveRight);
         break;
       case " ":
         togglePause();
@@ -97,16 +97,16 @@ const App: React.FC<{ exitToMenu: Function }> = (props) => {
 
   function makeAction(): void {
     switch (action) {
-      case "Rotate":
+      case Actions.Rotate:
         moveFigure(0, 0, true);
         break;
-      case "MoveDown":
+      case Actions.MoveDown:
         moveFigure(0, 1, false);
         break;
-      case "MoveLeft":
+      case Actions.MoveLeft:
         moveFigure(-1, 0, false);
         break;
-      case "MoveRight":
+      case Actions.MoveRight:
         moveFigure(1, 0, false);
         break;
       default:
@@ -119,12 +119,14 @@ const App: React.FC<{ exitToMenu: Function }> = (props) => {
     const y = event.changedTouches[0].clientY;
     event.stopPropagation();
     event.preventDefault();
-    if (y > window.innerHeight * (1 - GC.touchZoneSizeY)) setAction("MoveDown");
+    if (y > window.innerHeight * (1 - GC.touchZoneSizeY))
+      setAction(Actions.MoveDown);
     else if (y < window.innerHeight * GC.touchZoneSizeY) togglePause();
-    else if (x < window.innerWidth * GC.touchZoneSizeX) setAction("MoveLeft");
+    else if (x < window.innerWidth * GC.touchZoneSizeX)
+      setAction(Actions.MoveLeft);
     else if (x > window.innerWidth * (1 - GC.touchZoneSizeX))
-      setAction("MoveRight");
-    else setAction("Rotate");
+      setAction(Actions.MoveRight);
+    else setAction(Actions.Rotate);
   }
 
   React.useEffect(() => {
@@ -136,7 +138,7 @@ const App: React.FC<{ exitToMenu: Function }> = (props) => {
   }, []);
 
   React.useEffect(() => {
-    const clearAction = () => setAction("");
+    const clearAction = () => setAction(null);
     window.addEventListener("keyup", clearAction);
     return () => {
       window.removeEventListener("keyup", clearAction);
@@ -173,7 +175,7 @@ const App: React.FC<{ exitToMenu: Function }> = (props) => {
   }, []);
 
   React.useEffect(() => {
-    const clearAction = () => setAction("");
+    const clearAction = () => setAction(null);
     window.addEventListener("touchend", clearAction);
     return () => {
       window.removeEventListener("touchend", clearAction);

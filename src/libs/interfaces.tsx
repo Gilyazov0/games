@@ -9,6 +9,14 @@ export enum Apps {
   "tetris",
 }
 
+export enum Actions {
+  "MoveUp",
+  "MoveDown",
+  "MoveLeft",
+  "MoveRight",
+  "Rotate",
+}
+
 export interface AbstractCellData {
   color: string;
   isFilled: boolean;

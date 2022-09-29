@@ -203,13 +203,22 @@ export function setConstants(game: Apps): void {
     }
 
     case Apps.snake: {
-      const [cellSize, direction] = adjustmentToScreenSize(20, 20);
+      let rows = 20;
+      let cols = 10;
+      if (window.screen.width > window.screen.height && rows > cols) {
+        [rows, cols] = [cols, rows];
+      } else if (window.screen.width < window.screen.height && rows < cols) {
+        [rows, cols] = [cols, rows];
+      }
+
+      const [cellSize, direction] = adjustmentToScreenSize(rows, cols);
+
       gameConstants = {
         touchZoneSizeX: 0.25,
         touchZoneSizeY: 0.2,
         sensitivity: 100,
-        rows: 20,
-        cols: 20,
+        rows: rows,
+        cols: cols,
         baseSpeed: 800,
         cellSize: cellSize,
         direction: direction,
@@ -242,6 +251,7 @@ export function setConstants(game: Apps): void {
           },
         ],
       };
+
       break;
     }
   }

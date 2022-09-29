@@ -2,15 +2,8 @@ import React from "react";
 import { SnakeManipulations as GM } from "../../libs/snake/snakeManipulations";
 import SnakeField from "./SnakeField";
 
-import { setConstants, gameConstants as GC } from "../Constants";
-import { GameState as GS } from "../../libs/interfaces";
-
-enum Actions {
-  "MoveUp",
-  "MoveDown",
-  "MoveLeft",
-  "MoveRight",
-}
+import { gameConstants as GC } from "../Constants";
+import { GameState as GS, Actions } from "../../libs/interfaces";
 
 interface GameState extends GS {
   lastTik: number;
@@ -29,6 +22,7 @@ const Snake: React.FC<{ exitToMenu: Function }> = (props) => {
     gameOver: false,
     lastTik: Date.now(),
   });
+
   const [action, setAction] = React.useState({
     nextAction: Actions.MoveLeft,
     currentAction: Actions.MoveLeft,
