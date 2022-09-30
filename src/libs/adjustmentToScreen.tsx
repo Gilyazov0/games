@@ -1,4 +1,4 @@
-import { Direction } from "./interfaces";
+import { Direction } from "../dataTypes/gameDataTypes";
 
 export function adjustmentToScreenSize(
   rowsCount: number,

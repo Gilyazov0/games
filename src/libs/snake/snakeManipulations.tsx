@@ -1,6 +1,10 @@
 import { GameManipulations } from "../gameManipulations";
-import { Coordinates, Figure, RowData } from "../interfaces";
-import { gameConstants as GC } from "../сonstants";
+import {
+  Coordinates,
+  Figure,
+  RowData,
+} from "../../dataTypes/gameFieldDataTypes";
+import { gamesParameters as GP } from "../gamesParameters";
 import cloneDeep from "lodash.clonedeep";
 
 export class SnakeManipulations extends GameManipulations {
@@ -8,8 +12,8 @@ export class SnakeManipulations extends GameManipulations {
     return {
       ...super.getNewFigure(),
       figureCoordinates: {
-        x: Math.floor(GC.cols / 2),
-        y: Math.floor(GC.rows / 2),
+        x: Math.floor(GP.cols / 2),
+        y: Math.floor(GP.rows / 2),
       },
     };
   }
@@ -25,8 +29,8 @@ export class SnakeManipulations extends GameManipulations {
       let isValid = false;
       while (!isValid) {
         isValid = true;
-        const row = Math.floor(Math.random() * GC.rows);
-        const col = Math.floor(Math.random() * GC.cols);
+        const row = Math.floor(Math.random() * GP.rows);
+        const col = Math.floor(Math.random() * GP.cols);
 
         for (let i = 0; i < figure.cells.length; i++) {
           const cellCoords = this.getRealCords(figure, i);
@@ -42,7 +46,7 @@ export class SnakeManipulations extends GameManipulations {
           newField[row].cells[col] = {
             color: "#a3122d",
             isFilled: true,
-            cellSize: GC.cellSize,
+            cellSize: GP.cellSize,
           };
           count++;
         }
@@ -52,7 +56,7 @@ export class SnakeManipulations extends GameManipulations {
   }
 
   static isFood(coords: Coordinates, field: RowData[]): boolean {
-    if (!this.isInsideField(coords, GC.rows, GC.cols)) return false;
+    if (!this.isInsideField(coords, GP.rows, GP.cols)) return false;
     return field[coords.y].cells[coords.x].isFilled;
   }
 
@@ -106,7 +110,7 @@ export class SnakeManipulations extends GameManipulations {
   }
 
   static isValidPosition(oldFigure: Figure, coords: Coordinates): boolean {
-    if (!this.isInsideField(coords, GC.rows, GC.cols)) return false;
+    if (!this.isInsideField(coords, GP.rows, GP.cols)) return false;
 
     for (let i = 0; i < oldFigure.cells.length - 1; i++) {
       if (

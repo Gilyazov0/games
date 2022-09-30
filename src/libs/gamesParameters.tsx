@@ -1,14 +1,15 @@
 import { adjustmentToScreenSize } from "./adjustmentToScreen";
-import { GameConstants } from "./interfaces";
-import { Apps } from "./interfaces";
-
-export function setConstants(game: Apps): void {
+import { Apps } from "../dataTypes/gameDataTypes";
+import { SnakeGameParameters } from "../dataTypes/snakeDataTypes";
+import { TetrisGameParameters } from "../dataTypes/tetrisDataTypes";
+export function setParameters(game: Apps): void {
   switch (game) {
     case Apps.tetris: {
       const [cellSize, direction] = adjustmentToScreenSize(20, 10);
-      gameConstants = {
+      gamesParameters = {
         touchZoneSizeX: 0.25,
         touchZoneSizeY: 0.2,
+        changeSpeedCoef: 20,
         sensitivity: 100,
         rows: 20,
         cols: 10,
@@ -199,7 +200,7 @@ export function setConstants(game: Apps): void {
             ],
           },
         ],
-      };
+      } as TetrisGameParameters;
       break;
     }
 
@@ -214,16 +215,17 @@ export function setConstants(game: Apps): void {
 
       const [cellSize, direction] = adjustmentToScreenSize(rows, cols);
 
-      gameConstants = {
+      gamesParameters = {
         touchZoneSizeX: 0.25,
         touchZoneSizeY: 0.2,
-        sensitivity: 100,
+        changeSpeedCoef: 10,
         rows: rows,
         cols: cols,
         baseSpeed: 800,
         cellSize: cellSize,
         direction: direction,
-        colorsArr: ["rgb(0,200,0)"],
+        colorsArr: [],
+        applesCount: 5,
         figuresArr: [
           //  XX
           {
@@ -251,11 +253,11 @@ export function setConstants(game: Apps): void {
             ],
           },
         ],
-      };
+      } as SnakeGameParameters;
 
       break;
     }
   }
 }
 
-export let gameConstants: GameConstants;
+export let gamesParameters: TetrisGameParameters | SnakeGameParameters;

@@ -1,7 +1,7 @@
 import React from "react";
 import Info from "../Info";
-import { gameConstants as GC } from "../../libs/сonstants";
-import { Direction } from "../../libs/interfaces";
+import { gamesParameters as GP } from "../../libs/gamesParameters";
+import { Direction } from "../../dataTypes/gameDataTypes";
 import { GameField, GameFieldProps } from "../GameField";
 
 export const SnakeField: React.FC<GameFieldProps> = (props) => {
@@ -11,10 +11,10 @@ export const SnakeField: React.FC<GameFieldProps> = (props) => {
   return (
     <div
       className={`field--outer  field--outer--${
-        GC.direction === Direction.row ? "right" : "bottom"
+        GP.direction === Direction.row ? "right" : "bottom"
       }`}
       style={{
-        flexDirection: GC.direction === Direction.row ? "row" : "column",
+        flexDirection: GP.direction === Direction.row ? "row" : "column",
       }}
     >
       <GameField
@@ -28,14 +28,14 @@ export const SnakeField: React.FC<GameFieldProps> = (props) => {
 
       <div
         className={`field--preview field--preview--${
-          GC.direction === Direction.row ? "right" : "bottom"
+          GP.direction === Direction.row ? "right" : "bottom"
         }`}
         style={{
-          flexDirection: GC.direction === Direction.row ? "column" : "row",
+          flexDirection: GP.direction === Direction.row ? "column" : "row",
         }}
       >
         <Info
-          width={GC.cellSize * 3 + 10}
+          width={GP.cellSize * 3 + 10}
           score={props.score!}
           speed={props.speed!}
         ></Info>

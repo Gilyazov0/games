@@ -1,5 +1,5 @@
 import React from "react";
-import { CellData } from "../libs/interfaces";
+import { CellData } from "../dataTypes/gameFieldDataTypes";
 
 export interface CellProps {
   data: CellData;

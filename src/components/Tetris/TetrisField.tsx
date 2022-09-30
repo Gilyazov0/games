@@ -1,7 +1,8 @@
 import React from "react";
 import Info from "../Info";
-import { gameConstants as GC } from "../../libs/сonstants";
-import { Direction, FieldData } from "../../libs/interfaces";
+import { gamesParameters as GP } from "../../libs/gamesParameters";
+import { Direction } from "../../dataTypes/gameDataTypes";
+import { FieldData } from "../../dataTypes/gameFieldDataTypes";
 import { GameField, GameFieldProps as GF } from "../GameField";
 
 export interface GameFieldProps extends GF {
@@ -14,10 +15,10 @@ export const TetrisField: React.FC<GameFieldProps> = (props) => {
   return (
     <div
       className={`field--outer  field--outer--${
-        GC.direction === Direction.row ? "right" : "bottom"
+        GP.direction === Direction.row ? "right" : "bottom"
       }`}
       style={{
-        flexDirection: GC.direction === Direction.row ? "row" : "column",
+        flexDirection: GP.direction === Direction.row ? "row" : "column",
       }}
     >
       <GameField
@@ -33,22 +34,22 @@ export const TetrisField: React.FC<GameFieldProps> = (props) => {
       {props.previewField && (
         <div
           className={`field--preview field--preview--${
-            GC.direction === Direction.row ? "right" : "bottom"
+            GP.direction === Direction.row ? "right" : "bottom"
           }`}
           style={{
-            flexDirection: GC.direction === Direction.row ? "column" : "row",
+            flexDirection: GP.direction === Direction.row ? "column" : "row",
           }}
         >
           <Info
-            width={GC.cellSize * 3 + 10}
+            width={GP.cellSize * 3 + 10}
             score={props.score!}
             speed={props.speed!}
           ></Info>
           <TetrisField
             field={{
               rows: props.previewField.rows,
-              maxWidth: GC.cellSize * 3,
-              maxHight: GC.cellSize * 4,
+              maxWidth: GP.cellSize * 3,
+              maxHight: GP.cellSize * 4,
             }}
             style={{ border: "none" }}
             previewField={undefined}

@@ -1,8 +1,8 @@
 import React from "react";
 import Message from "./Message";
 import { Row } from "./Row";
-import { FieldData } from "../libs/interfaces";
-import { gameConstants as GC } from "../libs/сonstants";
+import { FieldData } from "../dataTypes/gameFieldDataTypes";
+import { gamesParameters as GP } from "../libs/gamesParameters";
 
 export interface GameFieldProps {
   pause?: boolean;
@@ -25,8 +25,8 @@ export const GameField: React.FC<GameFieldProps> = (props) => {
   const rowsCount: number = field.length;
   const style = {
     ...props.style,
-    width: `${GC.cellSize * colsCount}px`,
-    height: `${GC.cellSize * rowsCount}px`,
+    width: `${GP.cellSize * colsCount}px`,
+    height: `${GP.cellSize * rowsCount}px`,
   };
 
   return (

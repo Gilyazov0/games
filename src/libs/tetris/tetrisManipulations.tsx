@@ -1,4 +1,4 @@
-import { Figure, RowData } from "../interfaces";
+import { Figure, RowData } from "../../dataTypes/gameFieldDataTypes";
 import { GameManipulations } from "../gameManipulations";
 
 export class TetrisManipulations extends GameManipulations {

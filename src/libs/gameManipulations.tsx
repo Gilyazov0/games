@@ -1,6 +1,11 @@
 import cloneDeep from "lodash.clonedeep";
-import { gameConstants as GC } from "./сonstants";
-import { Figure, CellData, RowData, Coordinates } from "./interfaces";
+import { gamesParameters as GP } from "./gamesParameters";
+import {
+  Figure,
+  CellData,
+  RowData,
+  Coordinates,
+} from "../dataTypes/gameFieldDataTypes";
 
 export class GameManipulations {
   private static last_row_id = Number.MIN_VALUE;
@@ -13,15 +18,15 @@ export class GameManipulations {
   }
 
   static getNewFigure(): Figure {
-    const figNum: number = Math.floor(Math.random() * GC.figuresArr.length);
+    const figNum: number = Math.floor(Math.random() * GP.figuresArr.length);
     const color: string = this.getRandomColor();
     return {
-      ...GC.figuresArr[figNum],
-      cells: GC.figuresArr[figNum].cells.map((cell) => ({
+      ...GP.figuresArr[figNum],
+      cells: GP.figuresArr[figNum].cells.map((cell) => ({
         ...cell,
         value: { ...cell.value, color: color } as CellData,
       })),
-      figureCoordinates: { x: Math.floor((GC.cols - 2) / 2), y: 0 },
+      figureCoordinates: { x: Math.floor((GP.cols - 2) / 2), y: 0 },
     };
   }
 
@@ -46,7 +51,7 @@ export class GameManipulations {
   }
 
   protected static getRandomColor(): string {
-    return GC.colorsArr[Math.floor(Math.random() * GC.colorsArr.length)];
+    return GP.colorsArr[Math.floor(Math.random() * GP.colorsArr.length)];
   }
 
   protected static isInsideField(
@@ -61,7 +66,7 @@ export class GameManipulations {
     const row: CellData[] = new Array<CellData>(cols).fill({
       isFilled: false,
       color: "#FFFFFF",
-      cellSize: GC.cellSize,
+      cellSize: GP.cellSize,
     });
     const res = { id: this.last_row_id, cells: row };
     this.last_row_id++;

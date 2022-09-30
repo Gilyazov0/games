@@ -1,17 +1,17 @@
 import React from "react";
 //import shortid from "shortid";
-import { gameConstants as GC } from "../../libs/сonstants";
+import { gamesParameters } from "../../libs/gamesParameters";
+import { TetrisGameParameters } from "../../dataTypes/tetrisDataTypes";
 import { TetrisManipulations as GM } from "../../libs/tetris/tetrisManipulations";
-import { GameState as GS, Figure, Actions } from "../../libs/interfaces";
+import { Actions } from "../../dataTypes/gameDataTypes";
+import { TetrisGameState } from "../../dataTypes/tetrisDataTypes";
 import TetrisField from "./TetrisField";
 
-interface GameState extends GS {
-  nextFigure: Figure;
-}
-
 const App: React.FC<{ exitToMenu: Function }> = (props) => {
-  const [state, setState] = React.useState<GameState>({
-    field: GM.getEmptyField(GC.rows, GC.cols),
+  const GP = gamesParameters as TetrisGameParameters;
+
+  const [state, setState] = React.useState<TetrisGameState>({
+    field: GM.getEmptyField(GP.rows, GP.cols),
     figure: GM.getNewFigure(),
     nextFigure: GM.getNewFigure(),
     score: 0,
@@ -29,7 +29,7 @@ const App: React.FC<{ exitToMenu: Function }> = (props) => {
   }
 
   function moveFigure(dx: number, dy: number, rotate = false) {
-    setState((prevState: GameState) => {
+    setState((prevState: TetrisGameState) => {
       if (prevState.pause) return prevState;
       const newFigure = GM.getMovedFigure(prevState.figure, dx, dy, rotate);
       if (GM.isValidPosition(newFigure, prevState.field))
@@ -43,7 +43,7 @@ const App: React.FC<{ exitToMenu: Function }> = (props) => {
             ...prevState,
             figure: prevState.nextFigure,
             nextFigure: GM.getNewFigure(),
-            field: GM.getEmptyField(GC.rows, GC.cols),
+            field: GM.getEmptyField(GP.rows, GP.cols),
             lastScore: prevState.score,
             lastSpeed: prevState.speed,
             speed: 1,
@@ -64,7 +64,9 @@ const App: React.FC<{ exitToMenu: Function }> = (props) => {
             nextFigure: GM.getNewFigure(),
             field: newField,
             score: prevState.score + add_score,
-            speed: 1 + Math.floor((prevState.score + add_score) / 20),
+            speed:
+              1 +
+              Math.floor((prevState.score + add_score) / GP.changeSpeedCoef),
           };
         }
       } else {
@@ -119,12 +121,12 @@ const App: React.FC<{ exitToMenu: Function }> = (props) => {
     const y = event.changedTouches[0].clientY;
     event.stopPropagation();
     event.preventDefault();
-    if (y > window.innerHeight * (1 - GC.touchZoneSizeY))
+    if (y > window.innerHeight * (1 - GP.touchZoneSizeY))
       setAction(Actions.MoveDown);
-    else if (y < window.innerHeight * GC.touchZoneSizeY) togglePause();
-    else if (x < window.innerWidth * GC.touchZoneSizeX)
+    else if (y < window.innerHeight * GP.touchZoneSizeY) togglePause();
+    else if (x < window.innerWidth * GP.touchZoneSizeX)
       setAction(Actions.MoveLeft);
-    else if (x > window.innerWidth * (1 - GC.touchZoneSizeX))
+    else if (x > window.innerWidth * (1 - GP.touchZoneSizeX))
       setAction(Actions.MoveRight);
     else setAction(Actions.Rotate);
   }
@@ -148,7 +150,7 @@ const App: React.FC<{ exitToMenu: Function }> = (props) => {
 
   React.useEffect(() => {
     makeAction();
-    let interval = window.setInterval(() => makeAction(), GC.sensitivity);
+    let interval = window.setInterval(() => makeAction(), GP.sensitivity);
     return () => {
       window.clearInterval(interval);
     };
@@ -158,7 +160,7 @@ const App: React.FC<{ exitToMenu: Function }> = (props) => {
   React.useEffect(() => {
     let interval = window.setInterval(
       () => moveFigure(0, 1),
-      GC.baseSpeed / state.speed
+      GP.baseSpeed / state.speed
     );
     return () => {
       window.clearInterval(interval);

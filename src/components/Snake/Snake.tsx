@@ -1,19 +1,22 @@
 import React from "react";
 import { SnakeManipulations as GM } from "../../libs/snake/snakeManipulations";
 import SnakeField from "./SnakeField";
-import { gameConstants as GC } from "../../libs/сonstants";
-import { GameState as GS, Actions } from "../../libs/interfaces";
+import { SnakeGameParameters } from "../../dataTypes/snakeDataTypes";
+import { gamesParameters } from "../../libs/gamesParameters";
+import { GameState as GS, Actions } from "../../dataTypes/gameDataTypes";
 
 interface GameState extends GS {
   lastTik: number;
 }
 
 const Snake: React.FC<{ exitToMenu: Function }> = (props) => {
+  const GP = gamesParameters as SnakeGameParameters;
+
   const figure = GM.getNewFigure();
   GM.colorSnake(figure);
-  const field = GM.getEmptyField(GC.rows, GC.cols);
+  const field = GM.getEmptyField(GP.rows, GP.cols);
   const [state, setState] = React.useState<GameState>({
-    field: GM.putFood(figure, 5, field),
+    field: GM.putFood(figure, GP.applesCount, field),
     figure: figure,
     score: 0,
     speed: 1,
@@ -52,7 +55,7 @@ const Snake: React.FC<{ exitToMenu: Function }> = (props) => {
           lastTik: Date.now(),
           field: GM.putFood(newFigure, 1, newField),
           score: prevState.score + 1,
-          speed: Math.ceil((prevState.score + 1) / 10),
+          speed: Math.ceil((prevState.score + 1) / GP.changeSpeedCoef),
         };
       } else
         return {
@@ -179,13 +182,13 @@ const Snake: React.FC<{ exitToMenu: Function }> = (props) => {
     const x = event.changedTouches[0].clientX;
     const y = event.changedTouches[0].clientY;
     event.stopPropagation();
-    if (y > window.innerHeight * (1 - GC.touchZoneSizeY)) {
+    if (y > window.innerHeight * (1 - GP.touchZoneSizeY)) {
       handleUserInput(Actions.MoveDown);
-    } else if (y < window.innerHeight * GC.touchZoneSizeY) {
+    } else if (y < window.innerHeight * GP.touchZoneSizeY) {
       handleUserInput(Actions.MoveUp);
-    } else if (x < window.innerWidth * GC.touchZoneSizeX) {
+    } else if (x < window.innerWidth * GP.touchZoneSizeX) {
       handleUserInput(Actions.MoveLeft);
-    } else if (x > window.innerWidth * (1 - GC.touchZoneSizeX)) {
+    } else if (x > window.innerWidth * (1 - GP.touchZoneSizeX)) {
       handleUserInput(Actions.MoveRight);
     } else handleUserInput(Actions.Pause);
   }
@@ -209,7 +212,7 @@ const Snake: React.FC<{ exitToMenu: Function }> = (props) => {
   React.useEffect(() => {
     let interval = window.setInterval(
       () => makeAction(),
-      state.lastTik - Date.now() + GC.baseSpeed / state.speed
+      state.lastTik - Date.now() + GP.baseSpeed / state.speed
     );
     return () => {
       window.clearInterval(interval);
