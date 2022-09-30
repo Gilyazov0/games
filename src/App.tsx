@@ -14,11 +14,14 @@ const App: React.FC = () => {
   switch (app) {
     case Apps.snake:
       setParameters(app);
+      document.title = "SNAKE";
       return <Snake exitToMenu={exitToMenu} />;
     case Apps.tetris:
+      document.title = "TETRIS";
       setParameters(app);
       return <Tetris exitToMenu={exitToMenu} />;
     case Apps.menu:
+      document.title = "MENU";
       return (
         <div className={"menu "}>
           <button
