@@ -30,14 +30,14 @@ const App: React.FC = () => {
             id={"start-tetris"}
             onClick={handleTetrisClick}
           >
-            TETRIS
+            T E T R I S
           </button>
           <button
             className={"menu--item infoBadge"}
             id={"start-stake"}
             onClick={handleSnakeClick}
           >
-            SNAKE
+            S N A K E
           </button>
         </div>
       );

@@ -96,15 +96,15 @@
   justify-content: space-around;
   flex-direction: column;
   height: 50vh;
-  max-width: 500px;
+  max-width: 15rem;
   margin: auto;
   margin-top: 20vh;
 
  
 }
 .menu--item{
-  height: 10vh;
-  line-height: 10vh;
+  height: 5rem;
+  line-height: 5rem;
 }
 
 .exit--button{
