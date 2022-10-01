@@ -11,6 +11,7 @@ const App: React.FC = () => {
   const handleSnakeClick = () => setApp(Apps.snake);
   const handleTetrisClick = () => setApp(Apps.tetris);
   const exitToMenu = () => setApp(Apps.menu);
+
   switch (app) {
     case Apps.snake:
       setParameters(app);
