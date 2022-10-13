@@ -1,4 +1,4 @@
-import { RowData } from "../../dataTypes/gameFieldDataTypes";
+import { Coordinates, RowData } from "../../dataTypes/gameFieldDataTypes";
 import { GameManipulations as GM } from "../gameManipulations";
 
 export class LifeManipulations extends GM {
@@ -23,5 +23,24 @@ export class LifeManipulations extends GM {
     chance: number
   ): RowData[] {
     return this.populateField(this.getEmptyField(rows, cols), chance);
+  }
+
+  static countPopulatedNearbyCells(
+    field: RowData[],
+    coords: Coordinates
+  ): number {
+    let res = 0;
+    const [rows, cols] = [field.length, field[0].cells.length];
+    for (let row = coords.y - 1; row <= coords.y + 1; row++) {
+      for (let col = coords.x - 1; col <= coords.x + 1; col++) {
+        let x = row < 0 ? rows - 1 : row;
+        x = row > rows - 1 ? 0 : row;
+        let y = col < 0 ? cols - 1 : cols;
+        y = col > cols - 1 ? 0 : col;
+
+        if (field[y].cells[x].isFilled) res++;
+      }
+    }
+    return res;
   }
 }
