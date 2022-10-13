@@ -4,6 +4,7 @@ export enum Apps {
   "menu",
   "snake",
   "tetris",
+  "life",
 }
 
 export interface GameParameters {

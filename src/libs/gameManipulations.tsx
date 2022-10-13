@@ -63,11 +63,11 @@ export class GameManipulations {
   }
 
   protected static getEmptyRow(cols: number): RowData {
-    const row: CellData[] = new Array<CellData>(cols).fill({
+    const row: CellData[] = Array.from({ length: cols }, () => ({
       isFilled: false,
       color: "#FFFFFF",
       cellSize: GP.cellSize,
-    });
+    }));
     const res = { id: this.last_row_id, cells: row };
     this.last_row_id++;
     return res;

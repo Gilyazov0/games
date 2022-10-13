@@ -11,7 +11,7 @@ const Life: React.FC<{ exitToMenu: Function }> = (props) => {
     <LifeField
       score={0}
       field={{
-        rows: GM.getEmptyField(GP.rows, GP.cols),
+        rows: GM.getPopulatedField(GP.rows, GP.cols, 0.5),
         maxHight: 800,
         maxWidth: 1000,
       }}
