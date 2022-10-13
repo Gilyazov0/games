@@ -25,7 +25,7 @@ export class LifeManipulations extends GM {
     return this.populateField(this.getEmptyField(rows, cols), chance);
   }
 
-  static countPopulatedNearbyCells(
+  protected static countLiveNearbyCells(
     field: RowData[],
     coords: Coordinates
   ): number {
@@ -33,14 +33,34 @@ export class LifeManipulations extends GM {
     const [rows, cols] = [field.length, field[0].cells.length];
     for (let row = coords.y - 1; row <= coords.y + 1; row++) {
       for (let col = coords.x - 1; col <= coords.x + 1; col++) {
-        let x = row < 0 ? rows - 1 : row;
-        x = row > rows - 1 ? 0 : row;
-        let y = col < 0 ? cols - 1 : cols;
-        y = col > cols - 1 ? 0 : col;
+        if (coords.y === row && coords.x === col) continue;
+
+        let y = row < 0 ? rows - 1 : row;
+        y = row > rows - 1 ? 0 : y;
+        let x = col < 0 ? cols - 1 : col;
+        x = col > cols - 1 ? 0 : x;
 
         if (field[y].cells[x].isFilled) res++;
       }
     }
     return res;
+  }
+
+  static getNextStepField(field: RowData[]): RowData[] {
+    const newField = this.copyField(field);
+    for (let row = 0; row < newField.length; row++) {
+      for (let col = 0; col < newField[row].cells.length; col++) {
+        const liveNeighbors = this.countLiveNearbyCells(field, {
+          y: row,
+          x: col,
+        });
+        if (newField[row].cells[col].isFilled && [2, 3].includes(liveNeighbors))
+          continue;
+        else if (!newField[row].cells[col].isFilled && liveNeighbors === 3) {
+          newField[row].cells[col].isFilled = true;
+        } else newField[row].cells[col].isFilled = false;
+      }
+    }
+    return newField;
   }
 }
