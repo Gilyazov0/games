@@ -57,13 +57,34 @@ const Life: React.FC<{ exitToMenu: Function }> = (props) => {
     console.log(event);
   };
 
+  function togglePause() {
+    setState((prevState) => {
+      return { ...prevState, pause: !prevState.pause, gameOver: false };
+    });
+  }
+
+  React.useEffect(() => {
+    function handleKeyClick(event: KeyboardEvent) {
+      if (event.key === " ") togglePause();
+    }
+    window.addEventListener("keydown", handleKeyClick);
+    return window.removeEventListener("keydown", (event) =>
+      handleKeyClick(event)
+    );
+  }, []);
+
   React.useEffect(() => {
     function makeMove() {
-      setState((prevState) => ({
-        ...prevState,
-        field: GM.getNextStepField(prevState.field),
-        lastTik: Date.now(),
-      }));
+      setState((prevState) => {
+        console.log(prevState.pause);
+        if (prevState.pause) return prevState;
+
+        return {
+          ...prevState,
+          field: GM.getNextStepField(prevState.field),
+          lastTik: Date.now(),
+        };
+      });
     }
 
     let interval = window.setInterval(
