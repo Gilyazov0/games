@@ -5,12 +5,6 @@ import { GameField } from "../GameField";
 import { LifeFieldProps } from "../../dataTypes/lifeDataTypes";
 
 export const SnakeField: React.FC<LifeFieldProps> = (props) => {
-  // const button = document.getElementById("exitToMenu") as HTMLButtonElement;
-  // button?.addEventListener("click", () => props.exitToMenu());
-
-  // const slider = document.getElementById("densitySlider") as HTMLInputElement;
-  // slider?.addEventListener("change", () => props.setDensity());
-
   return (
     <div
       className={`field--outer  field--outer--${
@@ -20,15 +14,16 @@ export const SnakeField: React.FC<LifeFieldProps> = (props) => {
         flexDirection: GP.direction === Direction.row ? "row" : "column",
       }}
     >
-      <GameField
-        score={props.score}
-        field={props.field}
-        gameOver={props.gameOver}
-        pause={props.pause}
-        speed={props.speed}
-        exitToMenu={props.exitToMenu}
-      />
-
+      <div onClick={(event) => props.handleCellClick(event)}>
+        <GameField
+          score={props.score}
+          field={props.field}
+          gameOver={props.gameOver}
+          pause={props.pause}
+          speed={props.speed}
+          exitToMenu={props.exitToMenu}
+        />
+      </div>
       <div
         className={`field--preview field--preview--${
           GP.direction === Direction.row ? "right" : "bottom"
@@ -59,7 +54,7 @@ export const SnakeField: React.FC<LifeFieldProps> = (props) => {
         <button
           className="infoBadge exit--button"
           id={"exitToMenu"}
-          onClick={() => props.exitToMenu}
+          onClick={() => props.exitToMenu()}
         >
           EXIT
         </button>

@@ -50,6 +50,10 @@ export class GameManipulations {
     return newField;
   }
 
+  static copyField(field: RowData[]): RowData[] {
+    return cloneDeep(field);
+  }
+
   protected static getRandomColor(): string {
     return GP.colorsArr[Math.floor(Math.random() * GP.colorsArr.length)];
   }
@@ -75,10 +79,6 @@ export class GameManipulations {
 
   protected static copyRow(row: RowData): RowData {
     return cloneDeep(row);
-  }
-
-  protected static copyField(field: RowData[]): RowData[] {
-    return cloneDeep(field);
   }
 
   protected static getRealCords(
