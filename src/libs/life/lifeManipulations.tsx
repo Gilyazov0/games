@@ -1,5 +1,10 @@
-import { Coordinates, RowData } from "../../dataTypes/gameFieldDataTypes";
+import {
+  CellData,
+  Coordinates,
+  RowData,
+} from "../../dataTypes/gameFieldDataTypes";
 import { GameManipulations as GM } from "../gameManipulations";
+import { gamesParameters as GP } from "../gamesParameters";
 
 export class LifeManipulations extends GM {
   protected static populateField(field: RowData[], chance: number) {
@@ -10,7 +15,13 @@ export class LifeManipulations extends GM {
         cellNum < newField[rowNum].cells.length;
         cellNum++
       ) {
-        newField[rowNum].cells[cellNum].isFilled = Math.random() < chance;
+        if (Math.random() < chance) {
+          newField[rowNum].cells[cellNum].color = GP.colorsArr[0];
+          newField[rowNum].cells[cellNum].isFilled = true;
+        } else {
+          newField[rowNum].cells[cellNum].color = "rgb(255,255,255)";
+          newField[rowNum].cells[cellNum].isFilled = false;
+        }
       }
     }
 
@@ -54,11 +65,17 @@ export class LifeManipulations extends GM {
           y: row,
           x: col,
         });
-        if (newField[row].cells[col].isFilled && [2, 3].includes(liveNeighbors))
-          continue;
-        else if (!newField[row].cells[col].isFilled && liveNeighbors === 3) {
+        if (
+          newField[row].cells[col].isFilled &&
+          [2, 3].includes(liveNeighbors)
+        ) {
+        } else if (!newField[row].cells[col].isFilled && liveNeighbors === 3) {
           newField[row].cells[col].isFilled = true;
-        } else newField[row].cells[col].isFilled = false;
+          newField[row].cells[col].color = GP.colorsArr[0];
+        } else {
+          newField[row].cells[col].isFilled = false;
+          newField[row].cells[col].color = "rgb(255,255,255)";
+        }
       }
     }
     return newField;
