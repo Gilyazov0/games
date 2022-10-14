@@ -225,7 +225,7 @@ export function setParameters(game: Apps): void {
         baseSpeed: 800,
         cellSize: cellSize,
         direction: direction,
-        colorsArr: [],
+        colorsArr: ["#42e6f5"],
         applesCount: 5,
         figuresArr: [
           //  XX
@@ -276,11 +276,11 @@ export function setParameters(game: Apps): void {
         changeSpeedCoef: 10,
         rows: rows,
         cols: cols,
-        baseSpeed: 800,
+        baseSpeed: 200,
+        density: 0.5,
         cellSize: cellSize,
         direction: direction,
-        colorsArr: [],
-        applesCount: 5,
+        colorsArr: ["rgb(0,255,0)"],
         figuresArr: [
           //  XX
           {
@@ -308,7 +308,7 @@ export function setParameters(game: Apps): void {
             ],
           },
         ],
-      } as SnakeGameParameters;
+      } as LifeGameParameters;
 
       break;
     }

@@ -2,23 +2,69 @@ import React from "react";
 import LifeField from "./LifeField";
 import { LifeManipulations as GM } from "../../libs/life/lifeManipulations";
 import { gamesParameters } from "../../libs/gamesParameters";
-import { LifeGameParameters } from "../../dataTypes/lifeDataTypes";
+import {
+  LifeGameParameters,
+  LifeGameState,
+} from "../../dataTypes/lifeDataTypes";
 
 const Life: React.FC<{ exitToMenu: Function }> = (props) => {
   const GP = gamesParameters as LifeGameParameters;
 
+  const [state, setState] = React.useState<LifeGameState>({
+    field: GM.getPopulatedField(GP.rows, GP.cols, GP.density),
+    figure: GM.getNewFigure(),
+    gameOver: false,
+    pause: false,
+    score: 0,
+    speed: 1,
+    lastTik: Date.now(),
+    density: GP.density,
+  });
+
+  const setDensity = function (density: number) {
+    setState((prevState) => ({ ...prevState, density: density }));
+  };
+
+  const restart = function () {
+    setState((prevState) => ({
+      ...prevState,
+      field: GM.getPopulatedField(GP.rows, GP.cols, prevState.density),
+    }));
+  };
+
+  React.useEffect(() => {
+    function makeMove() {
+      setState((prevState) => ({
+        ...prevState,
+        field: GM.getNextStepField(prevState.field),
+        lastTik: Date.now(),
+      }));
+    }
+
+    let interval = window.setInterval(
+      makeMove,
+      state.lastTik - Date.now() + GP.baseSpeed / state.speed
+    );
+    return () => {
+      window.clearInterval(interval);
+    };
+  }, [state.speed, state.lastTik, GP.baseSpeed, state.gameOver]);
+
   return (
     <LifeField
-      score={0}
+      score={state.score}
       field={{
-        rows: GM.getPopulatedField(GP.rows, GP.cols, 0.5),
+        rows: state.field,
         maxHight: 800,
         maxWidth: 1000,
       }}
-      gameOver={false}
-      pause={false}
-      speed={1}
+      gameOver={state.gameOver}
+      pause={state.pause}
+      speed={state.speed}
       exitToMenu={props.exitToMenu}
+      setDensity={setDensity}
+      density={state.density}
+      restart={restart}
     />
   );
 };

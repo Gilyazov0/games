@@ -1,13 +1,12 @@
 import React, { useCallback } from "react";
 import { SnakeManipulations as GM } from "../../libs/snake/snakeManipulations";
 import SnakeField from "./SnakeField";
-import { SnakeGameParameters } from "../../dataTypes/snakeDataTypes";
+import {
+  SnakeGameParameters,
+  SnakeGameState,
+} from "../../dataTypes/snakeDataTypes";
 import { gamesParameters } from "../../libs/gamesParameters";
 import { GameState as GS, Actions } from "../../dataTypes/gameDataTypes";
-
-interface GameState extends GS {
-  lastTik: number;
-}
 
 const Snake: React.FC<{ exitToMenu: Function }> = (props) => {
   const GP = gamesParameters as SnakeGameParameters;
@@ -15,7 +14,7 @@ const Snake: React.FC<{ exitToMenu: Function }> = (props) => {
   const figure = GM.getNewFigure();
   GM.colorSnake(figure);
   const field = GM.getEmptyField(GP.rows, GP.cols);
-  const [state, setState] = React.useState<GameState>({
+  const [state, setState] = React.useState<SnakeGameState>({
     field: GM.putFood(figure, GP.applesCount, field),
     figure: figure,
     score: 0,
@@ -32,7 +31,7 @@ const Snake: React.FC<{ exitToMenu: Function }> = (props) => {
 
   const moveFigure = useCallback(
     (dx: number, dy: number, rotate = false) => {
-      setState((prevState: GameState) => {
+      setState((prevState: SnakeGameState) => {
         if (prevState.pause) return prevState;
         const newFigure = GM.getMovedFigure(
           prevState.figure,

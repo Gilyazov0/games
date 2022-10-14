@@ -57,6 +57,18 @@ export class LifeManipulations extends GM {
     return res;
   }
 
+  protected static getRGBvalues(rgb: string): number[] {
+    return rgb
+      .slice(4, -1)
+      .split(",")
+      .map((x) => Number(x));
+  }
+
+  protected static cellColorAging(cell: CellData): CellData {
+    const [r, g, b] = this.getRGBvalues(cell.color);
+    return { ...cell, color: `rgb(${r},${Math.max(g - 1, 0)},${b})` };
+  }
+
   static getNextStepField(field: RowData[]): RowData[] {
     const newField = this.copyField(field);
     for (let row = 0; row < newField.length; row++) {
@@ -69,6 +81,9 @@ export class LifeManipulations extends GM {
           newField[row].cells[col].isFilled &&
           [2, 3].includes(liveNeighbors)
         ) {
+          newField[row].cells[col] = this.cellColorAging(
+            newField[row].cells[col]
+          );
         } else if (!newField[row].cells[col].isFilled && liveNeighbors === 3) {
           newField[row].cells[col].isFilled = true;
           newField[row].cells[col].color = GP.colorsArr[0];
