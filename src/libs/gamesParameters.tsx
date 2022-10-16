@@ -6,7 +6,7 @@ import { LifeGameParameters } from "../dataTypes/lifeDataTypes";
 export function setParameters(game: Apps): void {
   switch (game) {
     case Apps.tetris: {
-      const [cellSize, direction] = adjustmentToScreenSize(20, 10);
+      const [cellSize, direction] = adjustmentToScreenSize(20, 10, 8);
       gamesParameters = {
         touchZoneSizeX: 0.25,
         touchZoneSizeY: 0.2,
@@ -214,7 +214,7 @@ export function setParameters(game: Apps): void {
         [rows, cols] = [cols, rows];
       }
 
-      const [cellSize, direction] = adjustmentToScreenSize(rows, cols);
+      const [cellSize, direction] = adjustmentToScreenSize(rows, cols, 10);
 
       gamesParameters = {
         touchZoneSizeX: 0.25,
@@ -268,7 +268,7 @@ export function setParameters(game: Apps): void {
         [rows, cols] = [cols, rows];
       }
 
-      const [cellSize, direction] = adjustmentToScreenSize(rows, cols);
+      const [cellSize, direction] = adjustmentToScreenSize(rows, cols, 15);
 
       gamesParameters = {
         touchZoneSizeX: 0.25,

@@ -25,11 +25,9 @@ export const SnakeField: React.FC<LifeFieldProps> = (props) => {
         />
       </div>
       <div
-        className={`field--preview field--preview--${
-          GP.direction === Direction.row ? "right" : "bottom"
-        }`}
+        className={`field--preview field--preview--right`}
         style={{
-          flexDirection: GP.direction === Direction.row ? "column" : "row",
+          flexDirection: "column",
         }}
       >
         <div className="infoBlock">

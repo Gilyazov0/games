@@ -31,7 +31,7 @@ export const SnakeField: React.FC<GameFieldProps> = (props) => {
           GP.direction === Direction.row ? "right" : "bottom"
         }`}
         style={{
-          flexDirection: GP.direction === Direction.row ? "column" : "row",
+          flexDirection: "column",
         }}
       >
         <div className={"infoBlock"}>

@@ -2,24 +2,24 @@ import { Direction } from "../dataTypes/gameDataTypes";
 
 export function adjustmentToScreenSize(
   rowsCount: number,
-  colsCount: number
+  colsCount: number,
+  infoSize: number
 ): [number, Direction] {
   let maxWidth = Math.min(window.innerWidth, window.screen.width);
   let maxHight = Math.min(window.innerHeight, window.screen.height);
-  const margin = 210;
+  const margin =
+    parseFloat(getComputedStyle(document.documentElement).fontSize) * infoSize;
 
   let cellSizeByRows = (maxHight - margin) / rowsCount;
   let cellSizeByCols = (maxWidth - margin) / colsCount;
 
   const direction: Direction =
     cellSizeByRows > cellSizeByCols ? Direction.column : Direction.row;
-  // const addCols = direction === Direction.column ? 0 : 3;
-  // const addRows = direction === Direction.row ? 0 : 4;
 
   if (direction === Direction.column) {
-    maxHight -= 210;
+    maxHight -= margin;
   } else {
-    maxWidth -= 210;
+    maxWidth -= margin;
   }
 
   cellSizeByRows = maxHight / rowsCount;
