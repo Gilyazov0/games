@@ -48,6 +48,7 @@ export const TetrisField: React.FC<GameFieldProps> = (props) => {
           <TetrisField
             field={{
               rows: props.previewField.rows,
+              // maxHight: GP.cellSize * 4,
             }}
             style={{ border: "none" }}
             previewField={undefined}

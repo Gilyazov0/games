@@ -8,7 +8,7 @@ interface InfoProps {
 }
 
 const Info: React.FC<InfoProps> = (props) => {
-  const style = { width: `${props.width}px` };
+  const style = { width: `${props.width}` };
 
   return (
     <div style={style} className="info">

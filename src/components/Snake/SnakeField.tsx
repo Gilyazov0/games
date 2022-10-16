@@ -35,11 +35,7 @@ export const SnakeField: React.FC<GameFieldProps> = (props) => {
         }}
       >
         <div className={"infoBlock"}>
-          <Info
-            width={GP.cellSize * 3 + 10}
-            score={props.score!}
-            speed={props.speed!}
-          ></Info>
+          <Info width={150} score={props.score!} speed={props.speed!}></Info>
         </div>
 
         <button className="infoBadge exit--button" id={"exitToMenu"}>
