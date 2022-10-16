@@ -12,6 +12,7 @@ export interface LifeGameState extends GameState {
 
 export interface LifeFieldProps extends GameFieldProps {
   setDensity: Function;
+  setSpeed: Function;
   density: number;
   restart: Function;
   handleCellClick: Function;

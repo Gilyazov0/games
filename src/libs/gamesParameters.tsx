@@ -276,7 +276,7 @@ export function setParameters(game: Apps): void {
         changeSpeedCoef: 10,
         rows: rows,
         cols: cols,
-        baseSpeed: 200,
+        baseSpeed: 1000,
         density: 0.5,
         cellSize: cellSize,
         direction: direction,

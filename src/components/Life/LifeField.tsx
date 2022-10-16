@@ -55,7 +55,24 @@ export const SnakeField: React.FC<LifeFieldProps> = (props) => {
             RESTART
           </button>
         </div>
+
         <div className="infoBlock">
+          <div className="infoBadge sliderContainer ">
+            <label htmlFor="speed" className="sliderLabel">
+              SPEED:
+            </label>
+            <input
+              name="speed"
+              className={"slider"}
+              type="range"
+              min="1"
+              max="20"
+              step="1"
+              defaultValue={props.speed}
+              id="densitySlider"
+              onChange={(event) => props.setSpeed(event.target.value)}
+            />
+          </div>
           <button
             className="infoBadge info"
             id={"pause"}

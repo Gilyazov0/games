@@ -17,13 +17,17 @@ const Life: React.FC<{ exitToMenu: Function }> = (props) => {
     gameOver: false,
     pause: false,
     score: 0,
-    speed: 1,
+    speed: 10,
     lastTik: Date.now(),
     density: GP.density,
   });
 
   const setDensity = function (density: number) {
     setState((prevState) => ({ ...prevState, density: density }));
+  };
+
+  const setSpeed = function (speed: number) {
+    setState((prevState) => ({ ...prevState, speed: speed }));
   };
 
   const restart = function () {
@@ -106,6 +110,7 @@ const Life: React.FC<{ exitToMenu: Function }> = (props) => {
       speed={state.speed}
       exitToMenu={props.exitToMenu}
       setDensity={setDensity}
+      setSpeed={setSpeed}
       density={state.density}
       restart={restart}
       handleCellClick={handleCellClick}
