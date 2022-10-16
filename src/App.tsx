@@ -33,21 +33,21 @@ const App: React.FC = () => {
       return (
         <div className={"menu "}>
           <button
-            className={"menu--item infoBadge"}
+            className={"menu--item infoBadge info"}
             id={"start-tetris"}
             onClick={handleTetrisClick}
           >
             T E T R I S
           </button>
           <button
-            className={"menu--item infoBadge"}
+            className={"menu--item infoBadge info"}
             id={"start-stake"}
             onClick={handleSnakeClick}
           >
             S N A K E
           </button>
           <button
-            className={"menu--item infoBadge"}
+            className={"menu--item infoBadge info"}
             id={"start-stake"}
             onClick={handleLifeClick}
           >

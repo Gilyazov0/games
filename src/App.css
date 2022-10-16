@@ -66,7 +66,6 @@
   border-radius: 8px;
   border: 2px solid;
   margin: 0px 0px 5px 0px;
-  width: 100%;
   font-size: 4vmin;
   background-color: #42aaf5;
   color: white;
@@ -74,7 +73,9 @@
   padding: 0.5rem;
 }
  
-
+.info{
+  width: 100%;
+}
 .slider{
   min-width: 5rem;
   
@@ -93,7 +94,7 @@
 }
 
 .infoBlock{
-  margin-bottom: 50px ;
+  margin-bottom: 20px ;
 }
 
 .field--preview {

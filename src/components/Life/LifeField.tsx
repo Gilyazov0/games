@@ -50,7 +50,7 @@ export const SnakeField: React.FC<LifeFieldProps> = (props) => {
             />
           </div>
           <button
-            className="infoBadge"
+            className="infoBadge info"
             id={"restart"}
             onClick={() => props.restart()}
           >
@@ -59,7 +59,7 @@ export const SnakeField: React.FC<LifeFieldProps> = (props) => {
         </div>
         <div className="infoBlock">
           <button
-            className="infoBadge"
+            className="infoBadge info"
             id={"pause"}
             onClick={() => props.togglePause()}
           >

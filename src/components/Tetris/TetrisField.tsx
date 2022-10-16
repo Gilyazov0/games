@@ -40,11 +40,7 @@ export const TetrisField: React.FC<GameFieldProps> = (props) => {
             flexDirection: GP.direction === Direction.row ? "column" : "row",
           }}
         >
-          <Info
-            width={GP.cellSize * 3 + 10}
-            score={props.score!}
-            speed={props.speed!}
-          ></Info>
+          <Info width={"100%"} score={props.score!} speed={props.speed!}></Info>
           <TetrisField
             field={{
               rows: props.previewField.rows,

@@ -6,7 +6,7 @@ export function adjustmentToScreenSize(
 ): [number, Direction] {
   const maxWidth = Math.min(window.innerWidth, window.screen.width);
   const maxHight = Math.min(window.innerHeight, window.screen.height);
-  const margin = 65;
+  const margin = 15;
 
   let cellSizeByRows = (maxHight - margin) / rowsCount;
   let cellSizeByCols = (maxWidth - margin) / colsCount;
