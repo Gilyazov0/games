@@ -33,18 +33,16 @@ export const SnakeField: React.FC<LifeFieldProps> = (props) => {
         }}
       >
         <div className="infoBlock">
-          <div className="slidecontainer">
-            <input
-              type="range"
-              min="0"
-              max="1"
-              step="0.01"
-              defaultValue={props.density}
-              className="slider"
-              id="densitySlider"
-              onChange={(event) => props.setDensity(event.target.value)}
-            />
-          </div>
+          <input
+            type="range"
+            min="0"
+            max="1"
+            step="0.01"
+            defaultValue={props.density}
+            className="slider"
+            id="densitySlider"
+            onChange={(event) => props.setDensity(event.target.value)}
+          />
           <button
             className="infoBadge"
             id={"restart"}
