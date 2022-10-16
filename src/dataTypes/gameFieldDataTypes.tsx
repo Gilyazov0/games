@@ -20,8 +20,6 @@ export interface RowData {
 
 export interface FieldData {
   rows: RowData[];
-  maxHight: number;
-  maxWidth: number;
 }
 
 export interface AbstractFigure {

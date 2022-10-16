@@ -100,8 +100,6 @@ const Life: React.FC<{ exitToMenu: Function }> = (props) => {
       score={state.score}
       field={{
         rows: state.field,
-        maxHight: 800,
-        maxWidth: 1000,
       }}
       gameOver={state.gameOver}
       pause={state.pause}

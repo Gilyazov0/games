@@ -293,18 +293,6 @@ export function setParameters(game: Apps): void {
                 relativeCoords: { x: 0, y: 0 },
                 value: { isFilled: true, color: "#FFFFFF" },
               },
-              {
-                relativeCoords: { x: 1, y: 0 },
-                value: { isFilled: true, color: "#00FF00" },
-              },
-              {
-                relativeCoords: { x: 2, y: 0 },
-                value: { isFilled: true, color: "#00FF00" },
-              },
-              {
-                relativeCoords: { x: 3, y: 0 },
-                value: { isFilled: true, color: "#00FF00" },
-              },
             ],
           },
         ],

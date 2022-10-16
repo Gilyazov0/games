@@ -187,8 +187,6 @@ const App: React.FC<{ exitToMenu: Function }> = (props) => {
         <TetrisField
           field={{
             rows: GM.putFigure(state.figure, state.field),
-            maxWidth: Math.min(window.innerWidth, window.screen.width),
-            maxHight: Math.min(window.innerHeight, window.screen.height),
           }}
           pause={state.pause}
           gameOver={state.gameOver}
@@ -200,8 +198,6 @@ const App: React.FC<{ exitToMenu: Function }> = (props) => {
               { ...state.nextFigure, figureCoordinates: { x: 0, y: 0 } },
               GM.getEmptyField(4, 3)
             ),
-            maxHight: 1,
-            maxWidth: 1,
           }}
         />
       </header>

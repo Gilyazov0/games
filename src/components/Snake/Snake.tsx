@@ -234,8 +234,6 @@ const Snake: React.FC<{ exitToMenu: Function }> = (props) => {
     <SnakeField
       field={{
         rows: GM.putFigure(state.figure, state.field),
-        maxWidth: Math.min(window.innerWidth, window.screen.width),
-        maxHight: Math.min(window.innerHeight, window.screen.height),
       }}
       pause={state.pause}
       gameOver={state.gameOver}
