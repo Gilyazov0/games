@@ -34,11 +34,14 @@ export const SnakeField: React.FC<GameFieldProps> = (props) => {
           flexDirection: GP.direction === Direction.row ? "column" : "row",
         }}
       >
-        <Info
-          width={GP.cellSize * 3 + 10}
-          score={props.score!}
-          speed={props.speed!}
-        ></Info>
+        <div className={"infoBlock"}>
+          <Info
+            width={GP.cellSize * 3 + 10}
+            score={props.score!}
+            speed={props.speed!}
+          ></Info>
+        </div>
+
         <button className="infoBadge exit--button" id={"exitToMenu"}>
           EXIT
         </button>

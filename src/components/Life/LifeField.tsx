@@ -32,24 +32,34 @@ export const SnakeField: React.FC<LifeFieldProps> = (props) => {
           flexDirection: GP.direction === Direction.row ? "column" : "row",
         }}
       >
-        <div className="slidecontainer">
-          <input
-            type="range"
-            min="0"
-            max="1"
-            step="0.01"
-            defaultValue={props.density}
-            className="slider"
-            id="densitySlider"
-            onChange={(event) => props.setDensity(event.target.value)}
-          />
+        <div className="infoBlock">
+          <div className="slidecontainer">
+            <input
+              type="range"
+              min="0"
+              max="1"
+              step="0.01"
+              defaultValue={props.density}
+              className="slider"
+              id="densitySlider"
+              onChange={(event) => props.setDensity(event.target.value)}
+            />
+          </div>
+          <button
+            className="infoBadge"
+            id={"restart"}
+            onClick={() => props.restart()}
+          >
+            RESTART
+          </button>
         </div>
+
         <button
-          className="infoBadge"
-          id={"restart"}
-          onClick={() => props.restart()}
+          className="infoBadge infoBlock"
+          id={"pause"}
+          onClick={() => props.togglePause()}
         >
-          RESTART
+          PAUSE
         </button>
         <button
           className="infoBadge exit--button"

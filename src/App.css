@@ -52,6 +52,15 @@
   align-items: center;
 }
 
+.message {
+  position: absolute;
+  width: 100%;
+  top: 45%;
+  text-align: center;
+  color: red;
+  font-size: xx-large;
+}
+
 .infoBadge {
   text-align: center;
   border-radius: 8px;
@@ -65,14 +74,8 @@
   padding: 2px;
 }
 
-.message {
-  position: absolute;
-  width: 100%;
-  top: 45%;
-  text-align: center;
-
-  color: red;
-  font-size: xx-large;
+.infoBlock{
+  margin-bottom: 50px ;
 }
 
 .field--preview {
@@ -96,7 +99,7 @@
   justify-content: space-around;
   flex-direction: column;
   height: 50vh;
-  max-width: 15rem;
+  max-width: 17rem;
   margin: auto;
   margin-top: 20vh;
 

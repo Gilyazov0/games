@@ -76,7 +76,6 @@ const Life: React.FC<{ exitToMenu: Function }> = (props) => {
   React.useEffect(() => {
     function makeMove() {
       setState((prevState) => {
-        console.log(prevState.pause);
         if (prevState.pause) return prevState;
 
         return {
@@ -112,6 +111,7 @@ const Life: React.FC<{ exitToMenu: Function }> = (props) => {
       density={state.density}
       restart={restart}
       handleCellClick={handleCellClick}
+      togglePause={togglePause}
     />
   );
 };

@@ -15,4 +15,5 @@ export interface LifeFieldProps extends GameFieldProps {
   density: number;
   restart: Function;
   handleCellClick: Function;
+  togglePause: Function;
 }
