@@ -9,7 +9,6 @@
 
 .cell--outer {
   margin: 0px;
-  max-height: 83px;
   display: flex;
   justify-content: center;
   align-items: center;
