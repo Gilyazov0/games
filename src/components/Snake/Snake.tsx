@@ -6,7 +6,7 @@ import {
   SnakeGameState,
 } from "../../dataTypes/snakeDataTypes";
 import { gamesParameters } from "../../libs/gamesParameters";
-import { GameState as GS, Actions } from "../../dataTypes/gameDataTypes";
+import { Actions } from "../../dataTypes/gameDataTypes";
 
 const Snake: React.FC<{ exitToMenu: Function }> = (props) => {
   const GP = gamesParameters as SnakeGameParameters;
@@ -179,7 +179,7 @@ const Snake: React.FC<{ exitToMenu: Function }> = (props) => {
 
   React.useEffect(() => {
     function makeAction(): void {
-      if (state.gameOver) return;
+      if (state.gameOver || state.pause) return;
       switch (action.nextAction) {
         case Actions.MoveUp:
           setAction({
@@ -216,7 +216,7 @@ const Snake: React.FC<{ exitToMenu: Function }> = (props) => {
 
     let interval = window.setInterval(
       () => makeAction(),
-      state.lastTik - Date.now() + GP.baseSpeed / state.speed
+      GP.baseSpeed / state.speed
     );
     return () => {
       window.clearInterval(interval);
@@ -228,6 +228,7 @@ const Snake: React.FC<{ exitToMenu: Function }> = (props) => {
     GP.baseSpeed,
     state.gameOver,
     moveFigure,
+    state.pause,
   ]);
 
   return (
