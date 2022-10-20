@@ -17,8 +17,6 @@ const App: React.FC<{ exitToMenu: Function }> = (props) => {
     nextFigure: GM.getNewFigure(),
     score: 0,
     speed: 1,
-    pause: false,
-    gameOver: false,
   });
 
   const [action, setAction] = React.useState<Actions | null>(null);

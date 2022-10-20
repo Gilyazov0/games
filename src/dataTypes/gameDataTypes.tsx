@@ -33,8 +33,6 @@ export interface GameState {
   field: RowData[];
   score: number;
   speed: number;
-  pause: boolean;
-  gameOver: boolean;
   figure: Figure;
 }
 
