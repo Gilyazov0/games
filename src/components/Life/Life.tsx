@@ -16,8 +16,6 @@ const Life: React.FC<{ exitToMenu: Function }> = (props) => {
   const [state, setState] = React.useState<LifeGameState>({
     field: GM.getPopulatedField(GP.rows, GP.cols, GP.density),
     figure: GM.getNewFigure(),
-    gameOver: false,
-    pause: false,
     score: 0,
     speed: 10,
     lastTik: Date.now(),
@@ -59,18 +57,18 @@ const Life: React.FC<{ exitToMenu: Function }> = (props) => {
       }
       return { ...prevState, field: newField };
     });
-
-    console.log(event);
   };
 
   React.useEffect(() => {
-    function handleKeyClick(event: KeyboardEvent) {
-      if (event.key === " ") togglePause();
+    function handleKeyPress(event: KeyboardEvent) {
+      if (event.key === " ") {
+        togglePause();
+      }
     }
-    window.addEventListener("keydown", handleKeyClick);
-    return window.removeEventListener("keydown", (event) =>
-      handleKeyClick(event)
-    );
+    window.addEventListener("keypress", handleKeyPress);
+    return () => {
+      window.removeEventListener("keypress", handleKeyPress);
+    };
   }, [togglePause]);
 
   React.useEffect(() => {
@@ -93,7 +91,7 @@ const Life: React.FC<{ exitToMenu: Function }> = (props) => {
     return () => {
       window.clearInterval(interval);
     };
-  }, [state.speed, state.lastTik, GP.baseSpeed, state.gameOver, pause]);
+  }, [GP.baseSpeed, pause, state.lastTik, state.speed]);
 
   return (
     <LifeField
@@ -101,7 +99,6 @@ const Life: React.FC<{ exitToMenu: Function }> = (props) => {
       field={{
         rows: state.field,
       }}
-      gameOver={state.gameOver}
       pause={pause}
       speed={state.speed}
       exitToMenu={props.exitToMenu}
