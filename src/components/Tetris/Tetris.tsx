@@ -6,6 +6,7 @@ import { TetrisManipulations as GM } from "../../libs/tetris/tetrisManipulations
 import { Actions } from "../../dataTypes/gameDataTypes";
 import { TetrisGameState } from "../../dataTypes/tetrisDataTypes";
 import TetrisField from "./TetrisField";
+import useToggle from "../hooks/useToggle";
 
 const App: React.FC<{ exitToMenu: Function }> = (props) => {
   const GP = gamesParameters as TetrisGameParameters;
@@ -22,16 +23,13 @@ const App: React.FC<{ exitToMenu: Function }> = (props) => {
 
   const [action, setAction] = React.useState<Actions | null>(null);
 
-  function togglePause() {
-    setState((prevState) => {
-      return { ...prevState, pause: !prevState.pause, gameOver: false };
-    });
-  }
+  const [gameOver, toggleGameOver] = useToggle();
+  const [pause, togglePause] = useToggle();
 
   const moveFigure = useCallback(
     (dx: number, dy: number, rotate = false) => {
+      if (pause) return;
       setState((prevState: TetrisGameState) => {
-        if (prevState.pause) return prevState;
         const newFigure = GM.getMovedFigure(prevState.figure, dx, dy, rotate);
         if (GM.isValidPosition(newFigure, prevState.field))
           return {
@@ -40,6 +38,8 @@ const App: React.FC<{ exitToMenu: Function }> = (props) => {
           };
         else if (dy > 0) {
           if (prevState.figure.figureCoordinates.y === 0) {
+            toggleGameOver(true);
+            togglePause(true);
             return {
               ...prevState,
               figure: prevState.nextFigure,
@@ -75,7 +75,7 @@ const App: React.FC<{ exitToMenu: Function }> = (props) => {
         }
       });
     },
-    [GP.changeSpeedCoef, GP.cols, GP.rows]
+    [GP.changeSpeedCoef, GP.cols, GP.rows, pause, toggleGameOver, togglePause]
   );
 
   React.useEffect(() => {
@@ -95,6 +95,7 @@ const App: React.FC<{ exitToMenu: Function }> = (props) => {
           break;
         case " ":
           togglePause();
+          toggleGameOver(false);
           break;
         default:
           break;
@@ -105,7 +106,7 @@ const App: React.FC<{ exitToMenu: Function }> = (props) => {
     return () => {
       window.removeEventListener("keydown", handleUserKeyPress);
     };
-  }, []);
+  }, [toggleGameOver, togglePause]);
 
   React.useEffect(() => {
     const clearAction = () => setAction(null);
@@ -172,7 +173,7 @@ const App: React.FC<{ exitToMenu: Function }> = (props) => {
     return () => {
       window.removeEventListener("touchstart", handleTouchStart);
     };
-  }, [GP.touchZoneSizeX, GP.touchZoneSizeY]);
+  }, [GP.touchZoneSizeX, GP.touchZoneSizeY, togglePause]);
 
   React.useEffect(() => {
     const clearAction = () => setAction(null);
@@ -182,26 +183,22 @@ const App: React.FC<{ exitToMenu: Function }> = (props) => {
     };
   }, []);
   return (
-    <div className="App">
-      <header className="App-header">
-        <TetrisField
-          field={{
-            rows: GM.putFigure(state.figure, state.field),
-          }}
-          pause={state.pause}
-          gameOver={state.gameOver}
-          score={state.score}
-          speed={state.speed}
-          exitToMenu={props.exitToMenu}
-          previewField={{
-            rows: GM.putFigure(
-              { ...state.nextFigure, figureCoordinates: { x: 0, y: 0 } },
-              GM.getEmptyField(4, 3)
-            ),
-          }}
-        />
-      </header>
-    </div>
+    <TetrisField
+      field={{
+        rows: GM.putFigure(state.figure, state.field),
+      }}
+      pause={pause}
+      gameOver={gameOver}
+      score={state.score}
+      speed={state.speed}
+      exitToMenu={props.exitToMenu}
+      previewField={{
+        rows: GM.putFigure(
+          { ...state.nextFigure, figureCoordinates: { x: 0, y: 0 } },
+          GM.getEmptyField(4, 3)
+        ),
+      }}
+    />
   );
 };
 

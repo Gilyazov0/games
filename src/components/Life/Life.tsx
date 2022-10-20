@@ -6,10 +6,12 @@ import {
   LifeGameParameters,
   LifeGameState,
 } from "../../dataTypes/lifeDataTypes";
-import { Recoverable } from "repl";
+import useToggle from "../hooks/useToggle";
 
 const Life: React.FC<{ exitToMenu: Function }> = (props) => {
   const GP = gamesParameters as LifeGameParameters;
+
+  const [pause, togglePause] = useToggle();
 
   const [state, setState] = React.useState<LifeGameState>({
     field: GM.getPopulatedField(GP.rows, GP.cols, GP.density),
@@ -61,12 +63,6 @@ const Life: React.FC<{ exitToMenu: Function }> = (props) => {
     console.log(event);
   };
 
-  function togglePause() {
-    setState((prevState) => {
-      return { ...prevState, pause: !prevState.pause, gameOver: false };
-    });
-  }
-
   React.useEffect(() => {
     function handleKeyClick(event: KeyboardEvent) {
       if (event.key === " ") togglePause();
@@ -75,12 +71,12 @@ const Life: React.FC<{ exitToMenu: Function }> = (props) => {
     return window.removeEventListener("keydown", (event) =>
       handleKeyClick(event)
     );
-  }, []);
+  }, [togglePause]);
 
   React.useEffect(() => {
     function makeMove() {
       setState((prevState) => {
-        if (prevState.pause) return prevState;
+        if (pause) return prevState;
 
         return {
           ...prevState,
@@ -97,7 +93,7 @@ const Life: React.FC<{ exitToMenu: Function }> = (props) => {
     return () => {
       window.clearInterval(interval);
     };
-  }, [state.speed, state.lastTik, GP.baseSpeed, state.gameOver]);
+  }, [state.speed, state.lastTik, GP.baseSpeed, state.gameOver, pause]);
 
   return (
     <LifeField
@@ -106,7 +102,7 @@ const Life: React.FC<{ exitToMenu: Function }> = (props) => {
         rows: state.field,
       }}
       gameOver={state.gameOver}
-      pause={state.pause}
+      pause={pause}
       speed={state.speed}
       exitToMenu={props.exitToMenu}
       setDensity={setDensity}

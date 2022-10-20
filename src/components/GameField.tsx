@@ -20,7 +20,6 @@ export const GameField: React.FC<GameFieldProps> = (props) => {
   const rows = field.map((row) => (
     <Row key={row.id} cells={row.cells} ids={row.cellsIds} />
   ));
-
   const colsCount: number = field[0].cells.length;
   const rowsCount: number = field.length;
   const style = {

@@ -7,6 +7,7 @@ import {
 } from "../../dataTypes/snakeDataTypes";
 import { gamesParameters } from "../../libs/gamesParameters";
 import { Actions } from "../../dataTypes/gameDataTypes";
+import useToggle from "../hooks/useToggle";
 
 const Snake: React.FC<{ exitToMenu: Function }> = (props) => {
   const GP = gamesParameters as SnakeGameParameters;
@@ -14,7 +15,7 @@ const Snake: React.FC<{ exitToMenu: Function }> = (props) => {
   const figure = GM.getNewFigure();
   GM.colorSnake(figure);
   const field = GM.getEmptyField(GP.rows, GP.cols);
-  const [state, setState] = React.useState<SnakeGameState>({
+  const initState = React.useRef({
     field: GM.putFood(figure, GP.applesCount, field),
     figure: figure,
     score: 0,
@@ -24,15 +25,21 @@ const Snake: React.FC<{ exitToMenu: Function }> = (props) => {
     lastTik: Date.now(),
   });
 
-  const [action, setAction] = React.useState({
+  const [state, setState] = React.useState<SnakeGameState>(initState.current);
+
+  const initAction = React.useRef({
     nextAction: Actions.MoveLeft,
     currentAction: Actions.MoveLeft,
   });
+  const [action, setAction] = React.useState(initAction.current);
+
+  const [gameOver, toggleGameOver] = useToggle();
+  const [pause, togglePause] = useToggle();
 
   const moveFigure = useCallback(
     (dx: number, dy: number, rotate = false) => {
       setState((prevState: SnakeGameState) => {
-        if (prevState.pause) return prevState;
+        if (pause) return prevState;
         const newFigure = GM.getMovedFigure(
           prevState.figure,
           dx,
@@ -43,6 +50,7 @@ const Snake: React.FC<{ exitToMenu: Function }> = (props) => {
         if (
           !GM.isValidPosition(prevState.figure, newFigure.figureCoordinates)
         ) {
+          toggleGameOver(true);
           return { ...prevState, gameOver: true };
         }
 
@@ -67,14 +75,8 @@ const Snake: React.FC<{ exitToMenu: Function }> = (props) => {
           };
       });
     },
-    [GP.changeSpeedCoef]
+    [GP.changeSpeedCoef, pause, toggleGameOver]
   );
-
-  function togglePause() {
-    setState((prevState) => {
-      return { ...prevState, pause: !prevState.pause, gameOver: false };
-    });
-  }
 
   const handleUserInput = useCallback(
     (input: Actions): void => {
@@ -120,11 +122,25 @@ const Snake: React.FC<{ exitToMenu: Function }> = (props) => {
           }
           break;
         case Actions.Pause:
-          togglePause();
+          if (gameOver) {
+            toggleGameOver(false);
+            setState(initState.current);
+            setAction(initAction.current);
+            togglePause(false);
+          } else {
+            togglePause();
+          }
           break;
       }
     },
-    [action.currentAction]
+    [
+      action.currentAction,
+      gameOver,
+      initAction,
+      initState,
+      toggleGameOver,
+      togglePause,
+    ]
   );
 
   React.useEffect(() => {
@@ -179,7 +195,7 @@ const Snake: React.FC<{ exitToMenu: Function }> = (props) => {
 
   React.useEffect(() => {
     function makeAction(): void {
-      if (state.gameOver || state.pause) return;
+      if (gameOver || pause) return;
       switch (action.nextAction) {
         case Actions.MoveUp:
           setAction({
@@ -216,7 +232,7 @@ const Snake: React.FC<{ exitToMenu: Function }> = (props) => {
 
     let interval = window.setInterval(
       () => makeAction(),
-      GP.baseSpeed / state.speed
+      state.lastTik - Date.now() + GP.baseSpeed / state.speed
     );
     return () => {
       window.clearInterval(interval);
@@ -226,9 +242,9 @@ const Snake: React.FC<{ exitToMenu: Function }> = (props) => {
     state.speed,
     state.lastTik,
     GP.baseSpeed,
-    state.gameOver,
+    gameOver,
     moveFigure,
-    state.pause,
+    pause,
   ]);
 
   return (
@@ -236,8 +252,8 @@ const Snake: React.FC<{ exitToMenu: Function }> = (props) => {
       field={{
         rows: GM.putFigure(state.figure, state.field),
       }}
-      pause={state.pause}
-      gameOver={state.gameOver}
+      pause={pause}
+      gameOver={gameOver}
       score={state.score}
       speed={state.speed}
       exitToMenu={props.exitToMenu}
