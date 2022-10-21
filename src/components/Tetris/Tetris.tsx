@@ -23,6 +23,7 @@ const App: React.FC<{ exitToMenu: Function }> = (props) => {
 
   const [gameOver, toggleGameOver] = useToggle();
   const [pause, togglePause] = useToggle();
+  const [aboutOn, toggleAbout] = useToggle();
 
   const moveFigure = useCallback(
     (dx: number, dy: number, rotate = false) => {
@@ -180,6 +181,9 @@ const App: React.FC<{ exitToMenu: Function }> = (props) => {
       window.removeEventListener("touchend", clearAction);
     };
   }, []);
+
+  React.useEffect(() => togglePause(aboutOn), [aboutOn, togglePause]);
+
   return (
     <TetrisField
       field={{
@@ -187,6 +191,8 @@ const App: React.FC<{ exitToMenu: Function }> = (props) => {
       }}
       pause={pause}
       gameOver={gameOver}
+      aboutOn={aboutOn}
+      toggleAbout={toggleAbout}
       score={state.score}
       speed={state.speed}
       exitToMenu={props.exitToMenu}

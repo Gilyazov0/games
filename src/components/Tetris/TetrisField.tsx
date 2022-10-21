@@ -4,14 +4,12 @@ import { gamesParameters as GP } from "../../libs/gamesParameters";
 import { Direction } from "../../dataTypes/gameDataTypes";
 import { FieldData } from "../../dataTypes/gameFieldDataTypes";
 import { GameField, GameFieldProps as GF } from "../GameField";
+import AboutTetris from "./AboutTetris";
 
 export interface GameFieldProps extends GF {
   previewField?: FieldData;
 }
 export const TetrisField: React.FC<GameFieldProps> = (props) => {
-  const button = document.getElementById("exitToMenu") as HTMLButtonElement;
-  button?.addEventListener("click", () => props.exitToMenu());
-
   return (
     <div
       className={`field--outer  field--outer--${
@@ -21,6 +19,8 @@ export const TetrisField: React.FC<GameFieldProps> = (props) => {
         flexDirection: GP.direction === Direction.row ? "row" : "column",
       }}
     >
+      {props.aboutOn && <AboutTetris close={props.toggleAbout!} />}
+
       <GameField
         score={props.score}
         field={props.field}
@@ -49,7 +49,20 @@ export const TetrisField: React.FC<GameFieldProps> = (props) => {
             previewField={undefined}
             exitToMenu={props.exitToMenu}
           />
-          <button className="infoBadge exit--button" id={"exitToMenu"}>
+
+          <button
+            className="infoBadge info"
+            id={"about"}
+            onClick={() => props.toggleAbout!()}
+          >
+            ABOUT
+          </button>
+
+          <button
+            className="infoBadge exit--button"
+            id={"exitToMenu"}
+            onClick={() => props.exitToMenu()}
+          >
             EXIT
           </button>
         </div>

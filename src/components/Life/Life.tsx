@@ -12,6 +12,7 @@ const Life: React.FC<{ exitToMenu: Function }> = (props) => {
   const GP = gamesParameters as LifeGameParameters;
 
   const [pause, togglePause] = useToggle();
+  const [aboutOn, toggleAbout] = useToggle();
 
   const [state, setState] = React.useState<LifeGameState>({
     field: GM.getPopulatedField(GP.rows, GP.cols, GP.density),
@@ -93,6 +94,8 @@ const Life: React.FC<{ exitToMenu: Function }> = (props) => {
     };
   }, [GP.baseSpeed, pause, state.lastTik, state.speed]);
 
+  React.useEffect(() => togglePause(aboutOn), [aboutOn, togglePause]);
+
   return (
     <LifeField
       score={state.score}
@@ -108,6 +111,8 @@ const Life: React.FC<{ exitToMenu: Function }> = (props) => {
       restart={restart}
       handleCellClick={handleCellClick}
       togglePause={togglePause}
+      aboutOn={aboutOn}
+      toggleAbout={toggleAbout}
     />
   );
 };

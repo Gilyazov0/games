@@ -138,3 +138,30 @@
   padding: 0.5rem;
   height: fit-content;
 }
+
+.about{
+  position: absolute;
+  top:10vh;
+  left: 10vw;
+  width: 80vw;
+  height: 80vh;
+  background-color: rgb(0, 197, 197);
+  z-index: 1;
+  font-size: xx-large;
+  padding: 1rem;
+}
+
+.close--button {
+  color: rgb(0, 0, 0);
+  position: absolute;
+  top: -23px;
+  right: -5px;
+  font-size: 40px;
+  color:crimson;
+}
+
+.close--button:hover 
+  {
+  color: #000;
+  cursor: default;
+}

@@ -3,13 +3,9 @@ import { gamesParameters as GP } from "../../libs/gamesParameters";
 import { Direction } from "../../dataTypes/gameDataTypes";
 import { GameField } from "../GameField";
 import { LifeFieldProps } from "../../dataTypes/lifeDataTypes";
+import AboutLife from "./AboutLife";
 
 export const SnakeField: React.FC<LifeFieldProps> = (props) => {
-  // const element = document.getElementById("pause");
-  // element?.addEventListener("click", () => {
-  //   props.togglePause();
-  // });
-
   return (
     <div
       className={`field--outer  field--outer--${
@@ -19,6 +15,8 @@ export const SnakeField: React.FC<LifeFieldProps> = (props) => {
         flexDirection: GP.direction === Direction.row ? "row" : "column",
       }}
     >
+      {props.aboutOn && <AboutLife close={props.toggleAbout!} />}
+
       <div onClick={(event) => props.handleCellClick(event)}>
         <GameField
           score={props.score}
@@ -88,6 +86,14 @@ export const SnakeField: React.FC<LifeFieldProps> = (props) => {
             PAUSE
           </button>
         </div>
+
+        <button
+          className="infoBadge info"
+          id={"about"}
+          onClick={() => props.toggleAbout!()}
+        >
+          ABOUT
+        </button>
 
         <button
           className="infoBadge exit--button"

@@ -12,6 +12,8 @@ export interface GameFieldProps {
   field: FieldData;
   style?: object;
   exitToMenu: Function;
+  aboutOn?: boolean;
+  toggleAbout?: Function;
 }
 
 export const GameField: React.FC<GameFieldProps> = (props) => {

@@ -3,11 +3,9 @@ import Info from "../Info";
 import { gamesParameters as GP } from "../../libs/gamesParameters";
 import { Direction } from "../../dataTypes/gameDataTypes";
 import { GameField, GameFieldProps } from "../GameField";
+import AboutSnake from "./AboutSnake";
 
 export const SnakeField: React.FC<GameFieldProps> = (props) => {
-  const button = document.getElementById("exitToMenu") as HTMLButtonElement;
-  button?.addEventListener("click", () => props.exitToMenu());
-
   return (
     <div
       className={`field--outer  field--outer--${
@@ -17,6 +15,8 @@ export const SnakeField: React.FC<GameFieldProps> = (props) => {
         flexDirection: GP.direction === Direction.row ? "row" : "column",
       }}
     >
+      {props.aboutOn && <AboutSnake close={props.toggleAbout!} />}
+
       <GameField
         score={props.score}
         field={props.field}
@@ -38,7 +38,19 @@ export const SnakeField: React.FC<GameFieldProps> = (props) => {
           <Info width={"100%"} score={props.score!} speed={props.speed!}></Info>
         </div>
 
-        <button className="infoBadge exit--button" id={"exitToMenu"}>
+        <button
+          className="infoBadge info"
+          id={"about"}
+          onClick={() => props.toggleAbout!()}
+        >
+          ABOUT
+        </button>
+
+        <button
+          className="infoBadge exit--button"
+          id={"exitToMenu"}
+          onClick={() => props.exitToMenu()}
+        >
           EXIT
         </button>
       </div>

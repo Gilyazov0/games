@@ -35,6 +35,7 @@ const Snake: React.FC<{ exitToMenu: Function }> = (props) => {
 
   const [gameOver, toggleGameOver] = useToggle();
   const [pause, togglePause] = useToggle();
+  const [aboutOn, toggleAbout] = useToggle();
 
   const moveFigure = useCallback(
     (dx: number, dy: number, rotate = false) => {
@@ -247,6 +248,8 @@ const Snake: React.FC<{ exitToMenu: Function }> = (props) => {
     pause,
   ]);
 
+  React.useEffect(() => togglePause(aboutOn), [aboutOn, togglePause]);
+
   return (
     <SnakeField
       field={{
@@ -257,6 +260,8 @@ const Snake: React.FC<{ exitToMenu: Function }> = (props) => {
       score={state.score}
       speed={state.speed}
       exitToMenu={props.exitToMenu}
+      aboutOn={aboutOn}
+      toggleAbout={toggleAbout}
     />
   );
 };
