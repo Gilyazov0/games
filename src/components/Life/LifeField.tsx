@@ -5,6 +5,11 @@ import { GameField } from "../GameField";
 import { LifeFieldProps } from "../../dataTypes/lifeDataTypes";
 
 export const SnakeField: React.FC<LifeFieldProps> = (props) => {
+  // const element = document.getElementById("pause");
+  // element?.addEventListener("click", () => {
+  //   props.togglePause();
+  // });
+
   return (
     <div
       className={`field--outer  field--outer--${
@@ -51,6 +56,7 @@ export const SnakeField: React.FC<LifeFieldProps> = (props) => {
             className="infoBadge info"
             id={"restart"}
             onClick={() => props.restart()}
+            onMouseDown={(event) => event.preventDefault()}
           >
             RESTART
           </button>
@@ -77,6 +83,7 @@ export const SnakeField: React.FC<LifeFieldProps> = (props) => {
             className="infoBadge info"
             id={"pause"}
             onClick={() => props.togglePause()}
+            onMouseDown={(event) => event.preventDefault()}
           >
             PAUSE
           </button>
@@ -86,6 +93,7 @@ export const SnakeField: React.FC<LifeFieldProps> = (props) => {
           className="infoBadge exit--button"
           id={"exitToMenu"}
           onClick={() => props.exitToMenu()}
+          onMouseDown={(event) => event.preventDefault()}
         >
           EXIT
         </button>
