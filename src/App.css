@@ -66,11 +66,12 @@
   border-radius: 8px;
   border: 2px solid;
   margin: 0px 0px 5px 0px;
-  font-size: 3rem;
+  font-size: 4vmin;
   background-color: #42aaf5;
   color: white;
   border-color: black;
   padding: 0.5rem;
+  
 }
  
 .info{
@@ -128,6 +129,7 @@
   height: 5rem;
   line-height: 100%;
   padding: 0 1rem;
+  font-size: 3rem;
 }
 
 .exit--button{
