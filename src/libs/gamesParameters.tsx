@@ -214,7 +214,7 @@ export function setParameters(game: Apps): void {
         [rows, cols] = [cols, rows];
       }
 
-      const [cellSize, direction] = adjustmentToScreenSize(rows, cols, 11);
+      const [cellSize, direction] = adjustmentToScreenSize(rows, cols, 13);
 
       gamesParameters = {
         touchZoneSizeX: 0.25,

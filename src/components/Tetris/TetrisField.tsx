@@ -49,22 +49,23 @@ export const TetrisField: React.FC<GameFieldProps> = (props) => {
             previewField={undefined}
             exitToMenu={props.exitToMenu}
           />
+          <div className="infoBlock">
+            <button
+              className="infoBadge info"
+              id={"about"}
+              onClick={() => props.toggleAbout!()}
+            >
+              ABOUT
+            </button>
 
-          <button
-            className="infoBadge info"
-            id={"about"}
-            onClick={() => props.toggleAbout!()}
-          >
-            ABOUT
-          </button>
-
-          <button
-            className="infoBadge exit--button"
-            id={"exitToMenu"}
-            onClick={() => props.exitToMenu()}
-          >
-            EXIT
-          </button>
+            <button
+              className="infoBadge exit--button"
+              id={"exitToMenu"}
+              onClick={() => props.exitToMenu()}
+            >
+              EXIT
+            </button>
+          </div>
         </div>
       )}
     </div>

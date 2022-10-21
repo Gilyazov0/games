@@ -37,22 +37,23 @@ export const SnakeField: React.FC<GameFieldProps> = (props) => {
         <div className={"infoBlock"}>
           <Info width={"100%"} score={props.score!} speed={props.speed!}></Info>
         </div>
-
-        <button
-          className="infoBadge info"
-          id={"about"}
-          onClick={() => props.toggleAbout!()}
-        >
-          ABOUT
-        </button>
-
-        <button
-          className="infoBadge exit--button"
-          id={"exitToMenu"}
-          onClick={() => props.exitToMenu()}
-        >
-          EXIT
-        </button>
+        <div className={"infoBlock"}>
+          {" "}
+          <button
+            className="infoBadge info"
+            id={"about"}
+            onClick={() => props.toggleAbout!()}
+          >
+            ABOUT
+          </button>
+          <button
+            className="infoBadge exit--button"
+            id={"exitToMenu"}
+            onClick={() => props.exitToMenu()}
+          >
+            EXIT
+          </button>
+        </div>
       </div>
     </div>
   );

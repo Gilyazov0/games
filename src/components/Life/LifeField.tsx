@@ -86,23 +86,24 @@ export const SnakeField: React.FC<LifeFieldProps> = (props) => {
             PAUSE
           </button>
         </div>
+        <div className="infoBlock">
+          <button
+            className="infoBadge info"
+            id={"about"}
+            onClick={() => props.toggleAbout!()}
+          >
+            ABOUT
+          </button>
 
-        <button
-          className="infoBadge info"
-          id={"about"}
-          onClick={() => props.toggleAbout!()}
-        >
-          ABOUT
-        </button>
-
-        <button
-          className="infoBadge exit--button"
-          id={"exitToMenu"}
-          onClick={() => props.exitToMenu()}
-          onMouseDown={(event) => event.preventDefault()}
-        >
-          EXIT
-        </button>
+          <button
+            className="infoBadge exit--button"
+            id={"exitToMenu"}
+            onClick={() => props.exitToMenu()}
+            onMouseDown={(event) => event.preventDefault()}
+          >
+            EXIT
+          </button>
+        </div>
       </div>
     </div>
   );
