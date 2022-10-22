@@ -6,11 +6,10 @@ import { LifeFieldProps } from "../../dataTypes/lifeDataTypes";
 import AboutLife from "./AboutLife";
 
 export const SnakeField: React.FC<LifeFieldProps> = (props) => {
+  const previewPosition = GP.direction === Direction.row ? "right" : "bottom";
   return (
     <div
-      className={`field--outer  field--outer--${
-        GP.direction === Direction.row ? "right" : "bottom"
-      }`}
+      className={`field--outer  field--outer--${previewPosition}`}
       style={{
         flexDirection: GP.direction === Direction.row ? "row" : "column",
       }}
@@ -28,7 +27,7 @@ export const SnakeField: React.FC<LifeFieldProps> = (props) => {
         />
       </div>
       <div
-        className={`field--preview field--preview--right`}
+        className={`field--preview field--preview--${previewPosition}`}
         style={{
           flexDirection: "column",
         }}
