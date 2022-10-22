@@ -128,7 +128,6 @@
   background-color: crimson;
   width: 100%;
   padding: 0.5rem;
-   
 }
 
 .menu{
@@ -150,21 +149,20 @@
   font-size: 3rem;
 }
 
-
 .about{
   position: absolute;
   top:10vh;
   left: 10vw;
   width: 75vw;
   height: 75vh;
-  background-color: rgb(0, 197, 197);
+  background-color: rgb(128, 222, 250);
   z-index: 1;
   font-size: xx-large;
   padding: 1rem;
+  border: 3px solid rgb(47, 125, 199); 
 }
 
 .close--button {
-  color: rgb(0, 0, 0);
   position: absolute;
   top: -23px;
   right: -5px;
