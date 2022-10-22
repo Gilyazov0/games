@@ -14,6 +14,16 @@ const App: React.FC = () => {
   const handleLifeClick = () => setApp(Apps.life);
   const exitToMenu = () => setApp(Apps.menu);
 
+  React.useEffect(() => {
+    const exitOnEsc = (event: KeyboardEvent) => {
+      if (event.key === "Escape") exitToMenu();
+    };
+    window.addEventListener("keyup", exitOnEsc);
+    return () => {
+      window.addEventListener("keyup", exitOnEsc);
+    };
+  }, []);
+
   switch (app) {
     case Apps.snake:
       setParameters(app);
