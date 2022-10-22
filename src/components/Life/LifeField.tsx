@@ -7,6 +7,7 @@ import AboutLife from "./AboutLife";
 
 export const SnakeField: React.FC<LifeFieldProps> = (props) => {
   const previewPosition = GP.direction === Direction.row ? "right" : "bottom";
+
   return (
     <div
       className={`field--outer  field--outer--${previewPosition}`}
@@ -26,13 +27,8 @@ export const SnakeField: React.FC<LifeFieldProps> = (props) => {
           exitToMenu={props.exitToMenu}
         />
       </div>
-      <div
-        className={`field--preview field--preview--${previewPosition}`}
-        style={{
-          flexDirection: "column",
-        }}
-      >
-        <div className="infoBlock">
+      <div className={`field--preview field--preview--${previewPosition}`}>
+        <div className={`infoBlock--${previewPosition}`}>
           <div className="sliderContainer infoBadge">
             <label htmlFor="density" className="sliderLabel">
               DENSITY:
@@ -59,7 +55,7 @@ export const SnakeField: React.FC<LifeFieldProps> = (props) => {
           </button>
         </div>
 
-        <div className="infoBlock">
+        <div className={`infoBlock--${previewPosition}`}>
           <div className="infoBadge sliderContainer ">
             <label htmlFor="speed" className="sliderLabel">
               SPEED:
@@ -85,7 +81,7 @@ export const SnakeField: React.FC<LifeFieldProps> = (props) => {
             PAUSE
           </button>
         </div>
-        <div className="infoBlock">
+        <div className={`infoBlock--${previewPosition}`}>
           <button
             className="infoBadge info"
             id={"about"}

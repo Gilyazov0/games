@@ -6,11 +6,11 @@ import { GameField, GameFieldProps } from "../GameField";
 import AboutSnake from "./AboutSnake";
 
 export const SnakeField: React.FC<GameFieldProps> = (props) => {
+  const previewPosition = GP.direction === Direction.row ? "right" : "bottom";
+
   return (
     <div
-      className={`field--outer  field--outer--${
-        GP.direction === Direction.row ? "right" : "bottom"
-      }`}
+      className={`field--outer  field--outer--${previewPosition}`}
       style={{
         flexDirection: GP.direction === Direction.row ? "row" : "column",
       }}
@@ -26,19 +26,11 @@ export const SnakeField: React.FC<GameFieldProps> = (props) => {
         exitToMenu={props.exitToMenu}
       />
 
-      <div
-        className={`field--preview field--preview--${
-          GP.direction === Direction.row ? "right" : "bottom"
-        }`}
-        style={{
-          flexDirection: "column",
-        }}
-      >
-        <div className={"infoBlock"}>
+      <div className={`field--preview field--preview--${previewPosition}`}>
+        <div className={`infoBlock--${previewPosition}`}>
           <Info width={"100%"} score={props.score!} speed={props.speed!}></Info>
         </div>
-        <div className={"infoBlock"}>
-          {" "}
+        <div className={`infoBlock--${previewPosition}`}>
           <button
             className="infoBadge info"
             id={"about"}

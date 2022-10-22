@@ -66,12 +66,14 @@
   border-radius: 8px;
   border: 2px solid;
   margin: 0px 0px 5px 0px;
-  font-size: 4vmin;
+  font-size: 1rem;
   background-color: #42aaf5;
   color: white;
   border-color: black;
   padding: 0.5rem;
-  
+  height:   2rem;
+  box-sizing: border-box;
+  line-height: 0.75rem;
 }
  
 .info{
@@ -82,19 +84,26 @@
 }
  
 .sliderContainer{
-     display: flex;
+    display: flex;
     justify-content: space-between;
     width: 100%;
     box-sizing: border-box;
 }
 
 .sliderLabel{
-  line-height: 2rem;
+  line-height: 0.75rem;
   font-size: small;
 }
 
-.infoBlock{
+.infoBlock--right{
   margin-bottom: 20px ;
+  width: 100%;
+}
+
+.infoBlock--bottom {
+  margin-bottom: 20px;
+  width: 45%;
+  max-width: 15rem;
 }
 
 .field--preview {
@@ -105,12 +114,21 @@
   justify-content: space-around;
   margin: 0px 20px 0px 20px;
   width: 100%;
-  max-width: 15rem;
+  display:flex;
+  flex-wrap: wrap;
 }
 
 .field--preview--right {
   justify-content: flex-start;
   margin-top: 20px;
+  flex-direction: column;
+}
+
+.exit--button {
+  background-color: crimson;
+  width: 100%;
+  padding: 0.5rem;
+   
 }
 
 .menu{
@@ -132,12 +150,6 @@
   font-size: 3rem;
 }
 
-.exit--button{
-  background-color: crimson;
-  width: 100%;
-  padding: 0.5rem;
-  height: fit-content;
-}
 
 .about{
   position: absolute;
