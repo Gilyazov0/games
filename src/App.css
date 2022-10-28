@@ -12,14 +12,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
- 
 }
-.cell--outer-border{
+.cell--outer-border {
   border-top: 1px solid;
-    border-left: 1px solid;
-    margin-top: -1px;
-    margin-left: -1px;
-    border-color: rgb(240, 240, 240);
+  border-left: 1px solid;
+  margin-top: -1px;
+  margin-left: -1px;
+  border-color: rgb(240, 240, 240);
 }
 
 .cell--full {
@@ -71,32 +70,32 @@
   color: white;
   border-color: black;
   padding: 0.5rem;
-  height:   2rem;
+  height: 2rem;
   box-sizing: border-box;
   line-height: 0.75rem;
 }
- 
-.info{
+
+.info {
   width: 100%;
 }
-.slider{
+.slider {
   min-width: 3rem;
 }
- 
-.sliderContainer{
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    box-sizing: border-box;
+
+.sliderContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.sliderLabel{
+.sliderLabel {
   line-height: 0.75rem;
   font-size: small;
 }
 
-.infoBlock--right{
-  margin-bottom: 20px ;
+.infoBlock--right {
+  margin-bottom: 20px;
   width: 100%;
 }
 
@@ -114,7 +113,7 @@
   justify-content: space-around;
   margin: 0px 20px 0px 20px;
   width: 100%;
-  display:flex;
+  display: flex;
   flex-wrap: wrap;
 }
 
@@ -130,7 +129,7 @@
   padding: 0.5rem;
 }
 
-.menu{
+.menu {
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -142,36 +141,30 @@
   margin-top: 20vh;
 }
 
-.menu--item{
+.menu--item {
   height: 5rem;
   line-height: 100%;
   padding: 0 1rem;
   font-size: 3rem;
 }
 
-.about{
+.about {
   position: absolute;
-  top:10vh;
+  top: 10vh;
   left: 10vw;
   width: 75vw;
   height: 75vh;
   background-color: rgb(128, 222, 250);
   z-index: 1;
   font-size: xx-large;
-  padding: 1rem;
-  border: 3px solid rgb(47, 125, 199); 
+  padding: 16px;
+  border: 3px solid rgb(47, 125, 199);
 }
 
 .close--button {
+  width: 19px;
+  height: 19px;
   position: absolute;
-  top: -23px;
-  right: -5px;
-  font-size: 40px;
-  color:crimson;
-}
-
-.close--button:hover 
-  {
-  color: #000;
-  cursor: default;
+  top: 0;
+  right: 0;
 }
